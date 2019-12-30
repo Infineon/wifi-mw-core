@@ -33,6 +33,7 @@
 
 #include <whd_types.h>
 
+#define MEM_ALIGNMENT                   (4)
 
 //
 // Enable IPV4 networking
@@ -147,11 +148,7 @@
 
 #define LWIP_SO_RCVBUF                  (128)
 
-//
-// Enabling both BSP and NETCONN resulting in some issues while running the server in Release build
-// And WiFi middle-ware code is not using the BSD APIs, hence disabling the LWIP_SOCKET.
-//
-#define LWIP_SOCKET                     (0)
+#define LWIP_SOCKET                     (1)
 #define LWIP_NETCONN                    (1)
 #define DEFAULT_TCP_RECVMBOX_SIZE       (6)
 #define TCPIP_MBOX_SIZE                 (16)
