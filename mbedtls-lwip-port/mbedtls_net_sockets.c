@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Cypress Semiconductor Corporation
+ * Copyright 2020 Cypress Semiconductor Corporation
  * SPDX-License-Identifier: Apache-2.0
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -165,7 +165,15 @@ int mbedtls_net_accept( mbedtls_net_context *bind_ctx, mbedtls_net_context *clie
  */
 int mbedtls_net_set_block( mbedtls_net_context *ctx )
 {
+    /* To-Do: Invoke lwIP netconn API */
     ctx->blocking = true ;
+    return 0 ;
+}
+
+int mbedtls_net_set_nonblock( mbedtls_net_context *ctx )
+{
+    /* To-Do: Invoke lwIP netconn API */
+    ctx->blocking = false ;
     return 0 ;
 }
 
@@ -174,24 +182,8 @@ int mbedtls_net_set_block( mbedtls_net_context *ctx )
  */
 int mbedtls_net_poll( mbedtls_net_context *ctx, uint32_t rw, uint32_t timeout )
 {
-    int ret = MBEDTLS_NET_POLL_WRITE ;
-    if (ctx->connection->recv_avail > 0)
-        ret |= MBEDTLS_NET_POLL_WRITE ;
-
-    while (timeout > 0)
-    {
-        if (ctx->connection->recv_avail > 0)
-        {
-            ret |= MBEDTLS_NET_POLL_WRITE ;
-            break ;
-        }  
-
-        vTaskDelay(1) ;
-        if (timeout != 0xffffffff)
-            timeout-- ;
-    }
-    
-    return ret ;
+    /* To-Do: Implement the logic to return appropriate read/write flags */
+    return MBEDTLS_ERR_NET_POLL_FAILED;
 }
 
 /*

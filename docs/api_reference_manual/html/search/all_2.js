@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['connection',['connection',['../structmbedtls__net__context.html#ace1d02c41215050501629a6e8830bd66',1,'mbedtls_net_context']]],
   ['cy_5fbuffer_5fadd_5fremove_5fat_5ffront',['cy_buffer_add_remove_at_front',['../group__group__bsp__network__buffer__functions.html#gaa284f33e6c96712370302d61d4b7cd58',1,'cy_network_buffer.h']]],
   ['cy_5fbuffer_5fget_5fcurrent_5fpiece_5fdata_5fpointer',['cy_buffer_get_current_piece_data_pointer',['../group__group__bsp__network__buffer__functions.html#ga782b3a560466f80c438e5c306107eeb1',1,'cy_network_buffer.h']]],
   ['cy_5fbuffer_5fget_5fcurrent_5fpiece_5fsize',['cy_buffer_get_current_piece_size',['../group__group__bsp__network__buffer__functions.html#ga9890010d1a7246a440477d47dc2c7b2b',1,'cy_network_buffer.h']]],

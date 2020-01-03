@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Cypress Semiconductor Corporation
+ * Copyright 2020 Cypress Semiconductor Corporation
  * SPDX-License-Identifier: Apache-2.0
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 /**
- * Created using the default mbedTLS net_sockets.h as reference
- */
+* \addtogroup group_mbedtls_lwip_port mbedTLS and lwIP port
+* \{
+*
+* Created using the default mbedTLS net_sockets.h as reference
+*
+*/
 #ifndef MBEDTLS_NET_SOCKETS_H
 #define MBEDTLS_NET_SOCKETS_H
 
@@ -25,6 +29,11 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
+
+/**
+* \addtogroup group_mbedtls_lwip_port_macros
+* \{
+*/
 
 #define MBEDTLS_ERR_NET_SOCKET_FAILED                     -0x0042  /**< Failed to open a socket. */
 #define MBEDTLS_ERR_NET_CONNECT_FAILED                    -0x0044  /**< The connection to the given server / port failed. */
@@ -48,25 +57,36 @@
 #define MBEDTLS_NET_POLL_READ  1 /**< Used in \c mbedtls_net_poll to check for pending data  */
 #define MBEDTLS_NET_POLL_WRITE 2 /**< Used in \c mbedtls_net_poll to check if write possible */
 
+/** \} group_mbedlts_lwip_port_macros */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * Wrapper type for sockets.
+* \addtogroup group_mbedtls_lwip_port_structures
+* \{
+*/
+
+/**
+ * lwIP socket wrapper context
  *
- * Currently backed by just a file descriptor, but might be more in the future
- * (eg two file descriptors for combined IPv4 + IPv6 support, or additional
- * structures for hand-made UDP demultiplexing).
  */
 typedef struct mbedtls_net_context
 {
-    struct netconn *connection ;
-    struct pbuf *rddata ;
-    int used ;
-    bool blocking ;
+    struct netconn *connection ; /**< Pointer to the lwIP netconn structure */
+    struct pbuf *rddata ;        /**< Receive data \c pbuf structure */
+    int used ;                   /**< Recive data \c pbuf offset */
+    bool blocking ;              /**< Flag to indicate blocking/non-blocking status of socket */
 }
 mbedtls_net_context;
+
+/** \} group_mbedlts_lwip_port_structures */
+
+/**
+* \addtogroup group_mbedtls_lwip_port_functions
+* \{
+*/
 
 /**
  * \brief          Initialize a context
@@ -135,6 +155,8 @@ int mbedtls_net_accept( mbedtls_net_context *bind_ctx,
 /**
  * \brief          Check and wait for the context to be ready for read/write
  *
+ *                 This API is currently not supported.
+ *
  * \param ctx      Socket to check
  * \param rw       Bitflag composed of MBEDTLS_NET_POLL_READ and
  *                 MBEDTLS_NET_POLL_WRITE specifying the events
@@ -158,6 +180,8 @@ int mbedtls_net_poll( mbedtls_net_context *ctx, uint32_t rw, uint32_t timeout );
 /**
  * \brief          Set the socket blocking
  *
+ *                 This API is currently not supported.
+ *
  * \param ctx      Socket to set
  *
  * \return         0 if successful, or a non-zero error code
@@ -166,6 +190,8 @@ int mbedtls_net_set_block( mbedtls_net_context *ctx );
 
 /**
  * \brief          Set the socket non-blocking
+ *
+ *                 This API is currently not supported.
  *
  * \param ctx      Socket to set
  *
@@ -242,8 +268,12 @@ int mbedtls_net_recv_timeout( void *ctx, unsigned char *buf, size_t len,
  */
 void mbedtls_net_free( mbedtls_net_context *ctx );
 
+/** \} group_mbedtls_lwip_port_functions */
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* net_sockets.h */
+/** \} group_mbedtls_lwip_port */
+

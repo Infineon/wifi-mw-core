@@ -26,9 +26,9 @@ This library and it's features are supported on following Cypress platforms:
 * CY8CKIT-062S2-43012
 
 ## Integration Notes
-* A set of pre-defined configuration files have been bundled with this library for FreeRTOS, lwIP and mbedTLS. The developer is expected to 
+* A set of pre-defined configuration files have been bundled with this library for FreeRTOS, lwIP and mbedTLS. The developer is expected to: 
    * Copy the FreeRTOSConfig.h file from configs directory to the top level code example directory in the project
-   * Configure the MBEDTLS_USER_CONFIG_FILE in the code example project's Makefile to "configs/mbedtls_user_config.h"
+   * Configure C Macro MBEDTLS_USER_CONFIG_FILE to "configs/mbedtls_user_config.h". Add it to DEFINES in the code example project's Makefile
    * lwIP configuration file will be automatically picked up during compilation
 * Libraries lwIP and mbedTLS contain reference and test applications. In order for these applications to not conflict with the code exampples, a cyignore file is also included with this library. This file has to be renamed to .cyignore and copied to the top level code example directory
 

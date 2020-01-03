@@ -83,15 +83,41 @@ $(document).ready(function(){initNavTree('structmbedtls__net__context.html','');
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">mbedtls_net_context Struct Reference</div>  </div>
+<div class="title">mbedtls_net_context Struct Reference<div class="ingroups"><a class="el" href="group__group__mbedtls__lwip__port.html">mbedTLS and lwIP port</a> &raquo; <a class="el" href="group__group__mbedtls__lwip__port__structures.html">Structures</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Wrapper type for sockets. </p>
-<p>Currently backed by just a file descriptor, but might be more in the future (eg two file descriptors for combined IPv4 + IPv6 support, or additional structures for hand-made UDP demultiplexing). </p>
+<div class="textblock"><p>lwIP socket wrapper context </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:ace1d02c41215050501629a6e8830bd66"><td class="memItemLeft" align="right" valign="top"><a id="ace1d02c41215050501629a6e8830bd66"></a>
-struct netconn *&#160;</td><td class="memItemRight" valign="bottom"><b>connection</b></td></tr>
+struct netconn *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbedtls__net__context.html#ace1d02c41215050501629a6e8830bd66">connection</a></td></tr>
+<tr class="memdesc:ace1d02c41215050501629a6e8830bd66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the lwIP netconn structure. <br /></td></tr>
 <tr class="separator:ace1d02c41215050501629a6e8830bd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adccd92a506ce3fb951e6a19cff2a1508"><td class="memItemLeft" align="right" valign="top"><a id="adccd92a506ce3fb951e6a19cff2a1508"></a>
+struct pbuf *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbedtls__net__context.html#adccd92a506ce3fb951e6a19cff2a1508">rddata</a></td></tr>
+<tr class="memdesc:adccd92a506ce3fb951e6a19cff2a1508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data <code>pbuf</code> structure. <br /></td></tr>
+<tr class="separator:adccd92a506ce3fb951e6a19cff2a1508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0962b93e6c26bd9c8881b5993a47364"><td class="memItemLeft" align="right" valign="top"><a id="aa0962b93e6c26bd9c8881b5993a47364"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbedtls__net__context.html#aa0962b93e6c26bd9c8881b5993a47364">used</a></td></tr>
+<tr class="memdesc:aa0962b93e6c26bd9c8881b5993a47364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recive data <code>pbuf</code> offset. <br /></td></tr>
+<tr class="separator:aa0962b93e6c26bd9c8881b5993a47364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4362e4af75d3e277e58b6e29cf5678de"><td class="memItemLeft" align="right" valign="top"><a id="a4362e4af75d3e277e58b6e29cf5678de"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmbedtls__net__context.html#a4362e4af75d3e277e58b6e29cf5678de">blocking</a></td></tr>
+<tr class="memdesc:a4362e4af75d3e277e58b6e29cf5678de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag to indicate blocking/non-blocking status of socket. <br /></td></tr>
+<tr class="separator:a4362e4af75d3e277e58b6e29cf5678de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath">
+    <ul>
+        <li class="footer">
+            Generated for <b>Cypress WiFi middleware core</b> by <b>Cypress Semiconductor Corporation</b>.
+            All rights reserved.
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Cypress Semiconductor Corporation
+ * Copyright 2020 Cypress Semiconductor Corporation
  * SPDX-License-Identifier: Apache-2.0
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,8 @@
 * Functions for dealing with linking the mbedTLS security stack with lwIP TCP/IP stack
 *
 * \defgroup group_mbedtls_lwip_port_functions Functions
+* \defgroup group_mbedtls_lwip_port_macros Macros
+* \defgroup group_mbedtls_lwip_port_structures Structures
 */
 #pragma once
 
