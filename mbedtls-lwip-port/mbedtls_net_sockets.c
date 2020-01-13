@@ -214,8 +214,10 @@ int mbedtls_net_recv( void *ctx, unsigned char *buf, size_t len )
         {
             ret = netconn_recv_tcp_pbuf(myctx->connection, &p) ;
             if (ret != ERR_OK)
+            {
+                printf("netconn_recv_tcp_pbuf failed with error %d\n", ret);
                 return  MBEDTLS_ERR_NET_RECV_FAILED ;
-
+            }
             if(p->len == 0)
             {
                 myctx->rddata = NULL;
