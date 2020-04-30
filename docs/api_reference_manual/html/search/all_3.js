@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['functions',['Functions',['../group__group__bsp__network__buffer__functions.html',1,'']]],
-  ['functions',['Functions',['../group__group__bsp__wifi__functions.html',1,'']]],
-  ['functions',['Functions',['../group__group__lwip__whd__port__functions.html',1,'']]],
-  ['functions',['Functions',['../group__group__mbedtls__lwip__port__functions.html',1,'']]]
+  ['gateway',['gateway',['../structip__static__addr__t.html#ad135b4541779fed17ef74e30b24d0604',1,'ip_static_addr_t']]]
 ];

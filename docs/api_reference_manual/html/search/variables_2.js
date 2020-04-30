@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['connection',['connection',['../structmbedtls__net__context.html#ace1d02c41215050501629a6e8830bd66',1,'mbedtls_net_context']]]
+  ['netmask',['netmask',['../structip__static__addr__t.html#a70b8e7d6db07889fbb92db8f562de2cb',1,'ip_static_addr_t']]]
 ];

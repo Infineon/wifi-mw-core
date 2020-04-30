@@ -3,13 +3,11 @@
 ## What's Included?
 Refer to the [README.md](./README.md) for a complete description of the WiFi middleware core
 
-## Known Issues
-| Problem | Workaround |
-| ------- | ---------- |
-| UDP and DTLS are not supported in the WiFi middleware core library | No workaround. Support will be added in a future release |
-| With older versions of psoc6make earlier than 1.2.0, due to a mismatch in the target kit naming between ModusToolbox and WHD, results in NVRAM files not getting picked up | Rename the target directory names in Wifi_Host_Driver/resources/nvram from TARGET_CY8CPROTO_062_4343W to TARGET_CY8CPROTO-062-4343W (similarly for CY8CKIT-062S2-43012). The latest psoc6make library (1.2.0 onwards) handles this issue automatically and avoids the need for this workaround |
-
 ## Changelog
+### v2.0.0
+* Updated to include Cypress secure sockets library and Connectivity Utilities
+* Upgraded mbedTLS to v2.16.6. Refer to [release notes](https://tls.mbed.org/tech-updates/releases/mbedtls-2.16.6-and-2.7.15-released)
+
 ### v1.0.0
 * Initial release for WiFi middleware core
 * Adds support for Cypress WiFi Host Driver, LwIP TCP/IP stack and mbedTLS security for TLS
@@ -19,11 +17,11 @@ This version of the library was validated for compatibility with the following S
 
 | Software and Tools                                      | Version |
 | :---                                                    | :----:  |
-| ModusToolbox Software Environment                       | 2.0     |
-| - ModusToolbox Device Configurator                      | 2.0     |
+| ModusToolbox Software Environment                       | 2.1     |
+| - ModusToolbox Device Configurator                      | 2.1     |
 | - ModusToolbox CSD Personality in Device Configurator   | 2.0     |
-| - ModusToolbox CapSense Configurator / Tuner tools      | 2.0     |
-| PSoC6 Peripheral Driver Library (PDL)                   | 1.2.0   |
+| - ModusToolbox CapSense Configurator / Tuner tools      | 3.0     |
+| PSoC6 Peripheral Driver Library (PDL)                   | 1.5.1   |
 | GCC Compiler                                            | 7.2.1   |
 | IAR Compiler                                            | 8.32    |
 

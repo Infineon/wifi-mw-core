@@ -8,7 +8,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"group__group__bsp__network__buffer.html"
+"group__generic__lwip__whd__port__defines.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

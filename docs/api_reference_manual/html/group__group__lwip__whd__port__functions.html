@@ -81,34 +81,95 @@ $(document).ready(function(){initNavTree('group__group__lwip__whd__port__functio
 
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Functions<div class="ingroups"><a class="el" href="group__group__lwip__whd__port.html">lwIP and WHD port</a></div></div>  </div>
+<div class="title">Functions<div class="ingroups"><a class="el" href="group__group__lwip__whd__port.html">LwIP and WHD port</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga0b2ff196bd6605b800c3716a52064fbe"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga0b2ff196bd6605b800c3716a52064fbe">cy_eapol_packet_handler_t</a>) (whd_buffer_t buffer, whd_interface_t interface)</td></tr>
+<tr class="memdesc:ga0b2ff196bd6605b800c3716a52064fbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">EAPOL handler to receive EAPOL data.  <a href="#ga0b2ff196bd6605b800c3716a52064fbe">More...</a><br /></td></tr>
+<tr class="separator:ga0b2ff196bd6605b800c3716a52064fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1287ee1b07381abccf600602f4ba6b3"><td class="memItemLeft" align="right" valign="top"><a id="gac1287ee1b07381abccf600602f4ba6b3"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gac1287ee1b07381abccf600602f4ba6b3">cy_network_activity_event_callback_t</a>) (bool callback_arg)</td></tr>
+<tr class="memdesc:gac1287ee1b07381abccf600602f4ba6b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Network activity callback function prototype Callback function which can be registered/unregistered for any network activity needs to be of this prototype. <br /></td></tr>
+<tr class="separator:gac1287ee1b07381abccf600602f4ba6b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b229101bd63cde13ec6d3e856b64227"><td class="memItemLeft" align="right" valign="top"><a id="ga7b229101bd63cde13ec6d3e856b64227"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga7b229101bd63cde13ec6d3e856b64227">cy_lwip_ip_change_callback_t</a>) (void *data)</td></tr>
+<tr class="memdesc:ga7b229101bd63cde13ec6d3e856b64227"><td class="mdescLeft">&#160;</td><td class="mdescRight">IP change callback function prototype Callback function which can be registered to receive IP changes needs to be of this prototype. <br /></td></tr>
+<tr class="separator:ga7b229101bd63cde13ec6d3e856b64227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gac1a29a2c97296230daffeb1f3e6461c4"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gac1a29a2c97296230daffeb1f3e6461c4">add_interface_to_lwip</a> (whd_interface_t iface, <a class="el" href="structip__static__addr__t.html">ip_static_addr_t</a> *ipaddr)</td></tr>
-<tr class="memdesc:gac1a29a2c97296230daffeb1f3e6461c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a WHD wifi interface to LWiP and bring it up This is the entry point in this file.  <a href="#gac1a29a2c97296230daffeb1f3e6461c4">More...</a><br /></td></tr>
-<tr class="separator:gac1a29a2c97296230daffeb1f3e6461c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga36ab2c19e30b317869296a637a4db461"><td class="memItemLeft" align="right" valign="top">struct netif *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga36ab2c19e30b317869296a637a4db461">get_lwip_interface</a> ()</td></tr>
-<tr class="memdesc:ga36ab2c19e30b317869296a637a4db461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the single LWiP network interface.  <a href="#ga36ab2c19e30b317869296a637a4db461">More...</a><br /></td></tr>
-<tr class="separator:ga36ab2c19e30b317869296a637a4db461"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78194ed8641cb75402b473d1a7b92a3f"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga78194ed8641cb75402b473d1a7b92a3f">cy_lwip_add_interface</a> (whd_interface_t iface, <a class="el" href="structip__static__addr__t.html">ip_static_addr_t</a> *ipaddr)</td></tr>
+<tr class="memdesc:ga78194ed8641cb75402b473d1a7b92a3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a WHD wifi interface to LwIP and bring it up This is the entry point in this file.  <a href="#ga78194ed8641cb75402b473d1a7b92a3f">More...</a><br /></td></tr>
+<tr class="separator:ga78194ed8641cb75402b473d1a7b92a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad9140ee31917631adc545aa904faaab6"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gad9140ee31917631adc545aa904faaab6">cy_lwip_remove_interface</a> (whd_interface_t iface)</td></tr>
+<tr class="memdesc:gad9140ee31917631adc545aa904faaab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a WHD wifi interface from LwIP.  <a href="#gad9140ee31917631adc545aa904faaab6">More...</a><br /></td></tr>
+<tr class="separator:gad9140ee31917631adc545aa904faaab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9e1aea461fbacaf6d727f8b7632d99ec"><td class="memItemLeft" align="right" valign="top">struct netif *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga9e1aea461fbacaf6d727f8b7632d99ec">cy_lwip_get_interface</a> ()</td></tr>
+<tr class="memdesc:ga9e1aea461fbacaf6d727f8b7632d99ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the single LwIP network interface.  <a href="#ga9e1aea461fbacaf6d727f8b7632d99ec">More...</a><br /></td></tr>
+<tr class="separator:ga9e1aea461fbacaf6d727f8b7632d99ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf1c503d4b1869c4b7fbfd2354149eb98"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gaf1c503d4b1869c4b7fbfd2354149eb98">cy_lwip_network_up</a> ()</td></tr>
+<tr class="memdesc:gaf1c503d4b1869c4b7fbfd2354149eb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function brings up the network link layer and setups the network interface and starts DHCP if required.  <a href="#gaf1c503d4b1869c4b7fbfd2354149eb98">More...</a><br /></td></tr>
+<tr class="separator:gaf1c503d4b1869c4b7fbfd2354149eb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga772a2b28d54bd361a080eab63dcf8db0"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga772a2b28d54bd361a080eab63dcf8db0">cy_lwip_network_down</a> ()</td></tr>
+<tr class="memdesc:ga772a2b28d54bd361a080eab63dcf8db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function brings down the network interface, brings down the network link layer and stops DHCP.  <a href="#ga772a2b28d54bd361a080eab63dcf8db0">More...</a><br /></td></tr>
+<tr class="separator:ga772a2b28d54bd361a080eab63dcf8db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd8c94a2056fe42c4e7083055dbeabe3"><td class="memItemLeft" align="right" valign="top">cy_rslt_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gabd8c94a2056fe42c4e7083055dbeabe3">cy_lwip_dhcp_renew</a> ()</td></tr>
+<tr class="memdesc:gabd8c94a2056fe42c4e7083055dbeabe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function Invalidates all the ARP entries and renews the DHCP, typically used when handshake failure occurs.  <a href="#gabd8c94a2056fe42c4e7083055dbeabe3">More...</a><br /></td></tr>
+<tr class="separator:gabd8c94a2056fe42c4e7083055dbeabe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga71e35990a48914d05b040deb52565584"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga71e35990a48914d05b040deb52565584">cy_network_process_ethernet_data</a> (whd_interface_t iface, whd_buffer_t buf)</td></tr>
 <tr class="memdesc:ga71e35990a48914d05b040deb52565584"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function takes packets from the radio driver and passes them into the lwIP stack.  <a href="#ga71e35990a48914d05b040deb52565584">More...</a><br /></td></tr>
 <tr class="separator:ga71e35990a48914d05b040deb52565584"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga239cf5cd46a186ee0dfe28b659b5a9f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga239cf5cd46a186ee0dfe28b659b5a9f0">cy_network_activity_register_cb</a> (<a class="el" href="group__group__lwip__whd__port__functions.html#gac1287ee1b07381abccf600602f4ba6b3">cy_network_activity_event_callback_t</a> cb)</td></tr>
+<tr class="memdesc:ga239cf5cd46a186ee0dfe28b659b5a9f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function helps to register/unregister callback fn for any TX/RX packets.  <a href="#ga239cf5cd46a186ee0dfe28b659b5a9f0">More...</a><br /></td></tr>
+<tr class="separator:ga239cf5cd46a186ee0dfe28b659b5a9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf4ad625fee4fe84caec404b453e9224"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#gaaf4ad625fee4fe84caec404b453e9224">cy_lwip_register_ip_change_cb</a> (<a class="el" href="group__group__lwip__whd__port__functions.html#ga7b229101bd63cde13ec6d3e856b64227">cy_lwip_ip_change_callback_t</a> cb)</td></tr>
+<tr class="memdesc:gaaf4ad625fee4fe84caec404b453e9224"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function helps to register/unregister for any IP changes from LwIP.  <a href="#gaaf4ad625fee4fe84caec404b453e9224">More...</a><br /></td></tr>
+<tr class="separator:gaaf4ad625fee4fe84caec404b453e9224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga427efdf94cc9b0482e20e1fbbe04a8e0"><td class="memItemLeft" align="right" valign="top">whd_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group__lwip__whd__port__functions.html#ga427efdf94cc9b0482e20e1fbbe04a8e0">cy_eapol_register_receive_handler</a> (<a class="el" href="group__group__lwip__whd__port__functions.html#ga0b2ff196bd6605b800c3716a52064fbe">cy_eapol_packet_handler_t</a> eapol_packet_handler)</td></tr>
+<tr class="memdesc:ga427efdf94cc9b0482e20e1fbbe04a8e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This API allows registering callback functions to receive EAPOL packets from WHD.  <a href="#ga427efdf94cc9b0482e20e1fbbe04a8e0">More...</a><br /></td></tr>
+<tr class="separator:ga427efdf94cc9b0482e20e1fbbe04a8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="gac1a29a2c97296230daffeb1f3e6461c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac1a29a2c97296230daffeb1f3e6461c4">&#9670;&nbsp;</a></span>add_interface_to_lwip()</h2>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga0b2ff196bd6605b800c3716a52064fbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0b2ff196bd6605b800c3716a52064fbe">&#9670;&nbsp;</a></span>cy_eapol_packet_handler_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">cy_rslt_t add_interface_to_lwip </td>
+          <td class="memname">typedef void(* cy_eapol_packet_handler_t) (whd_buffer_t buffer, whd_interface_t interface)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>EAPOL handler to receive EAPOL data. </p>
+<p>buffer should be freed by EAPOL handler</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>buffer received from WHD </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">interface</td><td>WHD interface </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga78194ed8641cb75402b473d1a7b92a3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga78194ed8641cb75402b473d1a7b92a3f">&#9670;&nbsp;</a></span>cy_lwip_add_interface()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cy_rslt_t cy_lwip_add_interface </td>
           <td>(</td>
           <td class="paramtype">whd_interface_t&#160;</td>
           <td class="paramname"><em>iface</em>, </td>
@@ -127,27 +188,56 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Add a WHD wifi interface to LWiP and bring it up This is the entry point in this file. </p>
-<p>This function takes a WHD radio driver handle and an optional static IP address, and brings up the LWiP network interface.</p>
+<p>Add a WHD wifi interface to LwIP and bring it up This is the entry point in this file. </p>
+<p>This function takes a WHD radio driver and adds the interface to LwIP, configures the optional static ip and registers to IP change callback. Currently only one interface is added and this is added as default interface. <br />
+Note : In future additionl interfaces will be supported.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">iface</td><td>Interface to be added to lwIP </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">iface</td><td>Interface to be added to LwIP </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ipaddr</td><td>IPv4/IPv6 address information associated with the interface </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>CY_RESULT_SUCCESS for successful addition to lwIP or error otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_RESULT_SUCCESS for successful addition to LwIP or error otherwise </dd></dl>
 
 </div>
 </div>
-<a id="ga36ab2c19e30b317869296a637a4db461"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga36ab2c19e30b317869296a637a4db461">&#9670;&nbsp;</a></span>get_lwip_interface()</h2>
+<a id="gad9140ee31917631adc545aa904faaab6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad9140ee31917631adc545aa904faaab6">&#9670;&nbsp;</a></span>cy_lwip_remove_interface()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct netif* get_lwip_interface </td>
+          <td class="memname">cy_rslt_t cy_lwip_remove_interface </td>
+          <td>(</td>
+          <td class="paramtype">whd_interface_t&#160;</td>
+          <td class="paramname"><em>iface</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes a WHD wifi interface from LwIP. </p>
+<p>This function takes a WHD radio driver handle and removes the LwIP network interface.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">iface</td><td>Interface to be removed from LwIP</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>CY_RSLT_SUCCESS if successful, failure code otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ga9e1aea461fbacaf6d727f8b7632d99ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9e1aea461fbacaf6d727f8b7632d99ec">&#9670;&nbsp;</a></span>cy_lwip_get_interface()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct netif* cy_lwip_get_interface </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -155,8 +245,68 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return the single LWiP network interface. </p>
+<p>Return the single LwIP network interface. </p>
 <dl class="section return"><dt>Returns</dt><dd>netif structure of the WHD interface </dd></dl>
+
+</div>
+</div>
+<a id="gaf1c503d4b1869c4b7fbfd2354149eb98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf1c503d4b1869c4b7fbfd2354149eb98">&#9670;&nbsp;</a></span>cy_lwip_network_up()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cy_rslt_t cy_lwip_network_up </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function brings up the network link layer and setups the network interface and starts DHCP if required. </p>
+<dl class="section return"><dt>Returns</dt><dd>CY_RSLT_SUCCESS if successful, failure code otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ga772a2b28d54bd361a080eab63dcf8db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga772a2b28d54bd361a080eab63dcf8db0">&#9670;&nbsp;</a></span>cy_lwip_network_down()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cy_rslt_t cy_lwip_network_down </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function brings down the network interface, brings down the network link layer and stops DHCP. </p>
+<dl class="section return"><dt>Returns</dt><dd>CY_RSLT_SUCCESS if successful, failure code otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="gabd8c94a2056fe42c4e7083055dbeabe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabd8c94a2056fe42c4e7083055dbeabe3">&#9670;&nbsp;</a></span>cy_lwip_dhcp_renew()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cy_rslt_t cy_lwip_dhcp_renew </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function Invalidates all the ARP entries and renews the DHCP, typically used when handshake failure occurs. </p>
+<dl class="section return"><dt>Returns</dt><dd>CY_RSLT_SUCCESS if successful, failure code otherwise. </dd></dl>
 
 </div>
 </div>
@@ -187,7 +337,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This function takes packets from the radio driver and passes them into the lwIP stack. </p>
-<p>If the stack is not initialized, or if the lwIP stack does not accept the packet, the packet is freed (dropped). This function will be registered as part of the whd_netif_funcs defined in whd.h of the WiFi Host Driver</p>
+<p>If the stack is not initialized, or if the LwIP stack does not accept the packet, the packet is freed (dropped). This function will be registered as part of the whd_netif_funcs defined in whd.h of the WiFi Host Driver</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">iface</td><td>WiFi interface </td></tr>
@@ -195,6 +345,88 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga239cf5cd46a186ee0dfe28b659b5a9f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga239cf5cd46a186ee0dfe28b659b5a9f0">&#9670;&nbsp;</a></span>cy_network_activity_register_cb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cy_network_activity_register_cb </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__lwip__whd__port__functions.html#gac1287ee1b07381abccf600602f4ba6b3">cy_network_activity_event_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function helps to register/unregister callback fn for any TX/RX packets. </p>
+<p>Passing "NULL" as cb will deregister the activity callback</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>Network activity callback function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaaf4ad625fee4fe84caec404b453e9224"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaf4ad625fee4fe84caec404b453e9224">&#9670;&nbsp;</a></span>cy_lwip_register_ip_change_cb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cy_lwip_register_ip_change_cb </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__lwip__whd__port__functions.html#ga7b229101bd63cde13ec6d3e856b64227">cy_lwip_ip_change_callback_t</a>&#160;</td>
+          <td class="paramname"><em>cb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function helps to register/unregister for any IP changes from LwIP. </p>
+<p>Passing "NULL" as callback will deregister the IP changes callback</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cb</td><td>IP change callback function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga427efdf94cc9b0482e20e1fbbe04a8e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga427efdf94cc9b0482e20e1fbbe04a8e0">&#9670;&nbsp;</a></span>cy_eapol_register_receive_handler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">whd_result_t cy_eapol_register_receive_handler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__group__lwip__whd__port__functions.html#ga0b2ff196bd6605b800c3716a52064fbe">cy_eapol_packet_handler_t</a>&#160;</td>
+          <td class="paramname"><em>eapol_packet_handler</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This API allows registering callback functions to receive EAPOL packets from WHD. </p>
+<p>If callback is registered and received packet is EAPOL packet then it will be directly redirected to registered callback. passing "NULL" as handler will de-register the previously registered callback</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">eapol_packet_handler</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>whd_result_t </dd></dl>
 
 </div>
 </div>

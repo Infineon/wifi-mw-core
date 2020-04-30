@@ -85,7 +85,25 @@
 //
 #define LWIP_DHCP                       (1)
 
+//
+// Enable LwIP send timeout
+//
+#define LWIP_SO_SNDTIMEO                (1)
+
+//
+// Enable LwIP receive timeout
+//
 #define LWIP_SO_RCVTIMEO                (1)
+
+//
+// Enable SO_REUSEADDR option
+//
+#define SO_REUSE                        (1)
+
+//
+// Enable TCP Keep-alive
+//
+#define LWIP_TCP_KEEPALIVE              (1)
 
 //
 // The amount of space to leave before the packet when allocating a pbuf. Needs to
@@ -117,12 +135,6 @@
 #define LWIP_NETCONN                    (1)
 
 /**
- * TCP_WND: The size of a TCP window.  This must be at least
- * (2 * TCP_MSS) for things to work well
- */
-#define TCP_WND                         (2 * TCP_MSS)
-
-/**
  * TCP_SND_BUF: TCP sender buffer space (bytes).
  * To achieve good performance, this should be at least 2 * TCP_MSS.
  */
@@ -152,7 +164,7 @@
 #define LWIP_NETCONN                    (1)
 #define DEFAULT_TCP_RECVMBOX_SIZE       (6)
 #define TCPIP_MBOX_SIZE                 (16)
-#define TCPIP_THREAD_STACKSIZE          (1024)
+#define TCPIP_THREAD_STACKSIZE          (4*1024)
 #define TCPIP_THREAD_PRIO               (4)
 #define DEFAULT_RAW_RECVMBOX_SIZE       (12)
 #define DEFAULT_UDP_RECVMBOX_SIZE       (12)
@@ -194,11 +206,6 @@
 #define PBUF_POOL_SIZE                  24
 
 /**
- * PBUF_POOL_BUFSIZE: the size of each pbuf in the pbuf pool.
- */
-#define PBUF_POOL_BUFSIZE               256
-
-/**
  * MEMP_NUM_NETBUF: the number of struct netbufs.
  * (only needed if you use the sequential API, like api_lib.c)
  */
@@ -210,12 +217,33 @@
  */
 #define MEMP_NUM_NETCONN                16
 
+
+/**
+ * LWIP_TCPIP_CORE_LOCKING
+ * Creates a global mutex that is held during TCPIP thread operations.
+ * Can be locked by client code to perform lwIP operations without changing
+ * into TCPIP thread using callbacks. See LOCK_TCPIP_CORE() and
+ * UNLOCK_TCPIP_CORE().
+ * Your system should provide mutexes supporting priority inversion to use this.
+ */
+#define LWIP_TCPIP_CORE_LOCKING         1
+
+/**
+ * LWIP_TCPIP_CORE_LOCKING_INPUT: when LWIP_TCPIP_CORE_LOCKING is enabled,
+ * this lets tcpip_input() grab the mutex for input packets as well,
+ * instead of allocating a message and passing it to tcpip_thread.
+ *
+ * ATTENTION: this does not work when tcpip_input() is called from
+ * interrupt context!
+ */
+#define LWIP_TCPIP_CORE_LOCKING_INPUT   1
+
 /**
  * LWIP_NETIF_API==1: Support netif api (in netifapi.c)
  */
 #define LWIP_NETIF_API                  1
 
-#define LWIP_DNS                        (1)
+#define LWIP_DNS                       (1)
 
 #define LWIP_NETIF_TX_SINGLE_PBUF      (1)
 
@@ -223,7 +251,10 @@
 
 #define LWIP_FREERTOS_CHECK_CORE_LOCKING             (1)
 
-#define LWIP_ASSERT_CORE_LOCKED()       sys_check_core_locking() 
+#define LWIP_ASSERT_CORE_LOCKED()       sys_check_core_locking()
+
+#define LWIP_NETIF_STATUS_CALLBACK    (1)
+#define LWIP_NETIF_LINK_CALLBACK      (1)
+#define LWIP_NETIF_REMOVE_CALLBACK    (1)
 
 extern void sys_check_core_locking() ;
-

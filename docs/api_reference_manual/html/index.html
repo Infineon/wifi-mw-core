@@ -84,42 +84,45 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This library comprises the core components needed for WiFi connectivity support - bundles FreeRTOS, lwIP TCP/IP stack, mbedTLS for security, Cypress WiFi host driver (WHD), configuration files and associated code to bind these components together This library provides application developers a suite of libraries along with the necessary glue logic enabling WiFi secure network capability.</p>
-<p>The ModusToolbox WiFi code examples download this library automatically, so you don't need to.</p>
+<div class="textblock"><p>This library comprises the core components needed for WiFi connectivity support - bundles FreeRTOS, LwIP TCP/IP stack, MbedTLS for security, Cypress WiFi host driver (WHD), Cypress Secure sockets interface configuration files and associated code to bind these components togetherThe ModusToolbox WiFi code examples download this library automatically, so you don't need to.</p>
 <h1><a class="anchor" id="section_features"></a>
 Features and functionality</h1>
-<p>The following components are part of this library. These components are bundled as ".lib" entries; each ".lib" points to the respective repositories, where they are hosted. All but lwIP and mbedTLS libraries are hosted on Cypress' Github repository. lwIP and mbedTLS libraries are hosted on their respective external repositories.</p><ul>
-<li>FreeRTOS - FreeRTOS kernel, distributed as standard C source files with configuration header file, for use with the PSoC 6 MCU</li>
-<li>Cypress Wifi Host Driver(WHD) - Embedded Wi-Fi Host Driver that provides a set of APIs to interact with Cypress WLAN chips</li>
-<li>lwIP - A Lightweight open-source TCP/IP stack. Refer to <a href="https://savannah.nongnu.org/projects/lwip/">lwIP</a> for details<ul>
-<li>NOTE: Using this library in a project will cause lwIP to be downloaded on your computer. It is your responsibility to understand and accept the lwIP license</li>
+<p>The following components are part of this library. These components are bundled as ".lib" entries; each ".lib" points to the respective repositories, where they are hosted. All but LwIP and MbedTLS libraries are hosted on Cypress' Github repository. LwIP and MbedTLS libraries are hosted on their respective external repositories.</p><ul>
+<li>Cypress Wi-Fi Host Driver(WHD) - Embedded Wi-Fi Host Driver that provides a set of APIs to interact with Cypress WLAN chips. Refer to <a href="https://github.com/cypresssemiconductorco/wifi-host-driver">Cypress Wi-Fi Host Driver(WHD)</a> for details</li>
+<li>FreeRTOS - FreeRTOS kernel, distributed as standard C source files with configuration header file, for use with the PSoC6 MCU. This FreeRTOS library is based on publicly available FreeRTOS library version 10.0.1.37. Refer to <a href="https://github.com/cypresssemiconductorco/freertos">FreeRTOS</a> for details</li>
+<li>The CLib FreeRTOS Support Library - This library provides the necessary hooks to make C library functions such as malloc and free thread safe. This implementation is specific to FreeRTOS and requires it to be present to build. Refer to <a href="https://github.com/cypresssemiconductorco/clib-support">The CLib FreeRTOS Support Library</a> for details</li>
+<li>LwIP - A Lightweight open-source TCP/IP stack, version: 2.1.2. Refer to <a href="https://savannah.nongnu.org/projects/lwip/">LwIP</a> for details<ul>
+<li>NOTE: Using this library in a project will cause LwIP to be downloaded on your computer. It is your responsibility to understand and accept the LwIP license</li>
 </ul>
 </li>
-<li>mbedTLS - An open source, portable, easy to use, readable and flexible SSL library, that has cryptographic capabilities. Refer to <a href="https://tls.mbed.org/">mbedTLS</a> for details<ul>
-<li>NOTE: Using this library in a project will cause mbedTLS to be downloaded on your computer. It is your responsibility to understand and accept the Mbed TLS license and regional use restrictions (including abiding by all applicable export control laws).</li>
+<li>MbedTLS - An open source, portable, easy to use, readable and flexible SSL library, that has cryptographic capabilities, version: 2.16.6. Refer to <a href="https://tls.mbed.org/">MbedTLS</a> for details<ul>
+<li>NOTE: Using this library in a project will cause MbedTLS to be downloaded on your computer. It is your responsibility to understand and accept the MbedTLS license and regional use restrictions (including abiding by all applicable export control laws).</li>
 </ul>
 </li>
-<li>Cypress RTOS Abstraction Layer - The RTOS Abstraction APIs allow middleware to be written to be RTOS aware, but without depending on any particular RTOS</li>
-<li>Predefined configuration files for FreeRTOS, lwIP and mbedTLS for typical embedded IoT usecases. See Integration Notes section for details</li>
-<li>Designed to work with Cypress' PSOC kits with WiFi capability supported through ModusToolbox software environment</li>
+<li>Cypress RTOS Abstraction Layer - The RTOS Abstraction APIs allow middleware to be written to be RTOS aware, but without depending on any particular RTOS. Refer to <a href="https://github.com/cypresssemiconductorco/abstraction-rtos">Cypress RTOS Abstraction Layer</a> for details</li>
+<li>Cypress Secure Sockets - Network abstraction APIs for underlying LwIP network stack and MbedTLS security library. Secure sockets library eases application development by exposing a socket like interface for both secure and non-secure socket communication. Refer to <a href="https://github.com/cypresssemiconductorco/secure-sockets">Cypress Secure Sockets</a> for details.</li>
+<li>Predefined configuration files for FreeRTOS, LwIP and MbedTLS for typical embedded IoT use-cases. See Integration Notes section for details</li>
+<li>Associated glue layer between LwIP and WHD</li>
 </ul>
+<p>This library is designed to work with Cypress' PSOC kits with Wi-Fi capability, supported through ModusToolbox software environment</p>
 <h1><a class="anchor" id="section_platforms"></a>
 Supported platforms</h1>
 <p>This library and it's features are supported on following Cypress platforms:</p><ul>
 <li><a href="https://www.cypress.com/documentation/development-kitsboards/psoc-6-wi-fi-bt-prototyping-kit-cy8cproto-062-4343w">PSoC6 WiFi-BT Prototyping Kit (CY8CPROTO-062-4343W)</a></li>
-<li>CY8CKIT-062S2-43012</li>
+<li><a href="https://www.cypress.com/documentation/development-kitsboards/psoc-62s2-wi-fi-bt-pioneer-kit-cy8ckit-062s2-43012">PSoC 62S2 Wi-Fi BT Pioneer Kit (CY8CKIT-062S2-43012)</a></li>
 </ul>
 <h1><a class="anchor" id="section_notes"></a>
-Integration notes</h1>
+Quick start</h1>
 <ul>
-<li>A set of pre-defined configuration files have been bundled with this library for FreeRTOS, lwIP and mbedTLS. The developer is expected to:<ul>
-<li>Copy the FreeRTOSConfig.h file from config to the top level code example directory</li>
-<li>Configure C Macro MBEDTLS_USER_CONFIG_FILE to "configs/mbedtls_user_config.h". Add it to <code>DEFINES</code> in the code example project's Makefile. Also, add CYBSP_WIFI_CAPABLE to enable WiFi functionality. The Makefile entry would look like <div class="fragment"><div class="line">DEFINES=MBEDTLS_USER_CONFIG_FILE=<span class="stringliteral">&#39;&quot;configs/mbedtls_user_config.h&quot;&#39;</span> CYBSP_WIFI_CAPABLE </div></div><!-- fragment --></li>
-<li>lwIP configuration file will be automatically picked up during compilation</li>
+<li>A set of pre-defined configuration files have been bundled with this library for FreeRTOS, LwIP and MbedTLS. These files are located in the configs folder. The developer is expected to:<ul>
+<li>Copy the FreeRTOSConfig.h file from configs directory to the top level code example directory in the project</li>
+<li>Configure C Macro MBEDTLS_USER_CONFIG_FILE to "configs/mbedtls_user_config.h" in the Makefile to provide the user configuration to MbedTLS library. The Makefile entry would look like, <div class="fragment"><div class="line">DEFINES+=MBEDTLS_USER_CONFIG_FILE=<span class="stringliteral">&#39;&quot;configs/mbedtls_user_config.h&quot;&#39;</span></div></div><!-- fragment --></li>
+<li>Add CYBSP_WIFI_CAPABLE build configuration to enable Wi-Fi functionality. The Makefile entry would look like, <div class="fragment"><div class="line">DEFINES+=CYBSP_WIFI_CAPABLE</div></div><!-- fragment --></li>
+<li>LwIP configuration file <a href="./configs/lwipopts.h">lwipopts.h</a> will be automatically picked up during compilation. We recommend not making any changes to the default lwipopts.h file. However, if any configurations changes are desired, copy over the lwipopts.h to the root folder of the code example priot to making the changes.</li>
 </ul>
 </li>
-<li>Libraries lwIP and mbedTLS contain reference and test applications. In order for these applications to not conflict with the code exampples, a cyignore file is also included with this library. This file has to be renamed to .cyignore and copied to the top level code example directory</li>
-<li>Add the following to <code>COMPONENTS</code> in the code example project's Makefile - FREERTOS, PSOC6HAL and either 4343W or 43012 depending on the platform. For instance, if CY8CKIT-062S2-43012 is chosen, then the Makefile entry would look like <div class="fragment"><div class="line">COMPONENTS=FREERTOS PSOC6HAL 43012 </div></div><!-- fragment --> </li>
+<li>Libraries Secure Sockets, LwIP and MbedTLS contain reference and test applications. In order for these applications to not conflict with the code examples, a .cyignore file is also included with this library.</li>
+<li>Add the following to COMPONENTS in the code example project's Makefile - FREERTOS, PSOC6HAL, LWIP, MBEDTLS and either 4343W or 43012 depending on the platform. For instance, if CY8CKIT-062S2-43012 is chosen, then the Makefile entry would look like, <div class="fragment"><div class="line">COMPONENTS=FREERTOS PSOC6HAL LWIP MBEDTLS 43012</div></div><!-- fragment --> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
