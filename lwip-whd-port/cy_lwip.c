@@ -22,7 +22,6 @@
 #include "whd.h"
 #include "cy_lwip.h"
 #include "cy_lwip_error.h"
-#include "cy_lwip_debug.h"
 #include "lwipopts.h"
 #include "lwip/netif.h"
 #include "lwip/netifapi.h"
@@ -32,15 +31,16 @@
 #include "lwip/tcpip.h"
 #include "lwip/ethip6.h"
 #include "lwip/igmp.h"
+#include "lwip/nd6.h"
 #include "netif/ethernet.h"
 #include "cy_result.h"
 #include "whd.h"
 #include "whd_wifi_api.h"
 #include "whd_network_types.h"
 #include "whd_buffer_api.h"
+#include "cy_log.h"
 
-
-#define EAPOL_PACKET_TYPE   0x888E
+#define EAPOL_PACKET_TYPE               0x888E
 
 #define MULTICAST_IP_TO_MAC(ip)       { (uint8_t) 0x01,             \
                                         (uint8_t) 0x00,             \
@@ -49,6 +49,13 @@
                                         (uint8_t) (ip)[2],          \
                                         (uint8_t) (ip)[3]           \
                                       }
+
+
+#ifdef ENABLE_WIFI_MIDDLEWARE_LOGS
+#define wm_cy_log_msg cy_log_msg
+#else
+#define wm_cy_log_msg(a,b,c,...)
+#endif
 
 /******************************************************
  *               Variable Definitions
@@ -66,7 +73,7 @@ static bool is_netif_added  = false;
 static cy_eapol_packet_handler_t internal_eapol_packet_handler = NULL;
 static cy_lwip_ip_change_callback_t ip_change_callback = NULL;
 
-struct netif *cy_lwip_get_interface()
+struct netif *cy_lwip_get_interface(void)
 {
     return net_interface ;
 }
@@ -76,8 +83,9 @@ struct netif *cy_lwip_get_interface()
  *               Static Function Declarations
  ******************************************************/
 static void internal_ip_change_callback (struct netif *netif);
+#if LWIP_IPV4
 static void invalidate_all_arp_entries(struct netif *netif);
-
+#endif
 /******************************************************
  *               Function Definitions
  ******************************************************/
@@ -149,14 +157,14 @@ static err_t wifioutput(struct netif *iface, struct pbuf *p)
 {
     if (whd_wifi_is_ready_to_transceive((whd_interface_t)iface->state) != WHD_SUCCESS)
     {
-        CY_LWIP_ERROR(("wifi is not ready, packet not sent\n")) ;
+        wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "wifi is not ready, packet not sent\n");
         return ERR_INPROGRESS ;
     }
 
     struct pbuf *whd_buf = pbuf_dup(p);
     if (whd_buf == NULL)
     {
-        CY_LWIP_ERROR(("failed to allocate buffer for outgoing packet\n"));
+        wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "failed to allocate buffer for outgoing packet\n");
         return ERR_MEM;
     }
     /* Call activity handler which is registered with argument as true
@@ -169,7 +177,7 @@ static err_t wifioutput(struct netif *iface, struct pbuf *p)
     whd_network_send_ethernet_data((whd_interface_t)iface->state, whd_buf) ;
     return ERR_OK ;
 }
-
+#if LWIP_IPV4 && LWIP_IGMP
 /*
  * This function is used to respond to IGMP (group management) requests.
  */
@@ -200,7 +208,7 @@ static err_t igmp_filter(struct netif *iface, const ip4_addr_t *group, enum neti
     return ERR_OK;
 
 }
-
+#endif
 /*
  * This function is called when adding the wifi network interface to LwIP,
  * it actually performs the initialization for the netif interface.
@@ -216,7 +224,7 @@ static err_t wifiinit(struct netif *iface)
     res = whd_wifi_get_mac_address(sta_interface, &macaddr) ;
     if (res != CY_RSLT_SUCCESS)
     {
-        CY_LWIP_ERROR(("whd_wifi_get_mac_address call failed, err = %lx", res)) ;
+        wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "whd_wifi_get_mac_address call failed, err = %lx\n", res);
         return res ;
     }  
     memcpy(&iface->hwaddr, &macaddr, sizeof(macaddr)) ;
@@ -225,10 +233,15 @@ static err_t wifiinit(struct netif *iface)
     /*
      * Setup the information associated with sending packets
      */
+#if LWIP_IPV4
     iface->output = etharp_output ;
+#endif
     iface->linkoutput = wifioutput ;
     iface->mtu = WHD_LINK_MTU ;
     iface->flags |= (NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_IGMP) ;
+#ifdef LWIP_IPV6_MLD
+    iface->flags |= NETIF_FLAG_MLD6;
+#endif
     iface->state = sta_interface ;
 
     /*
@@ -237,7 +250,9 @@ static err_t wifiinit(struct netif *iface)
     iface->name[0] = 'w' ;
     iface->name[1] = 'l' ;
 
+#if LWIP_IPV4 && LWIP_IGMP
     netif_set_igmp_mac_filter(iface, igmp_filter) ;    
+#endif
     
 #if LWIP_IPV6 == 1
     /*
@@ -288,7 +303,9 @@ static err_t wifiinit(struct netif *iface)
  */
 cy_rslt_t cy_lwip_add_interface(whd_interface_t iface, ip_static_addr_t *ipaddr)
 {
+#if LWIP_IPV4
     ip4_addr_t addr, netmask, gateway ;
+#endif
 
     sta_interface = iface ;
     if(is_netif_added)
@@ -299,6 +316,7 @@ cy_rslt_t cy_lwip_add_interface(whd_interface_t iface, ip_static_addr_t *ipaddr)
     net_interface = (struct netif *)malloc(sizeof(struct netif));
     memset(net_interface, 0, sizeof(struct netif)) ;
 
+#if LWIP_IPV4
     /* Assign the IP address if static, otherwise, zero the IP address */
     if (ipaddr != NULL)
     {
@@ -318,6 +336,12 @@ cy_rslt_t cy_lwip_add_interface(whd_interface_t iface, ip_static_addr_t *ipaddr)
     {
         return CY_RSLT_LWIP_ERROR_ADDING_INTERFACE;
     }
+#else
+    if(netifapi_netif_add(net_interface, NULL, wifiinit, tcpip_input) != CY_RSLT_SUCCESS)
+    {
+        return CY_RSLT_LWIP_ERROR_ADDING_INTERFACE;
+    }
+#endif
 
     netifapi_netif_set_default(net_interface) ;
 
@@ -355,10 +379,11 @@ cy_rslt_t cy_lwip_remove_interface(whd_interface_t iface)
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t cy_lwip_network_up()
+cy_rslt_t cy_lwip_network_up(void)
 {
+#if LWIP_IPV4
     ip4_addr_t ip_addr;
-
+#endif
     /*
     * Bring up the network interface
     */
@@ -368,6 +393,27 @@ cy_rslt_t cy_lwip_network_up()
     * Bring up the network link layer
     */
     netifapi_netif_set_link_up(net_interface);
+
+#if LWIP_IPV6
+    /* Wait for IPV6 address to change from tentative to valid or invalid */
+    while(ip6_addr_istentative(netif_ip6_addr_state(net_interface, 0)))
+    {
+        /* Give LwIP time to change the state */
+        cy_rtos_delay_milliseconds(ND6_TMR_INTERVAL);
+    }
+
+    /* LWIP changes state to either INVALID or VALID. Check if the state is VALID */
+    if(ip6_addr_isvalid(netif_ip6_addr_state(net_interface, 0)))
+    {
+        wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_INFO, "IPv6 Network ready IP: %s \r\n", ip6addr_ntoa(netif_ip6_addr(net_interface, 0)));
+    }
+    else
+    {
+        wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_INFO, "IPv6 network not ready \r\n");
+    }
+#endif
+
+#if LWIP_IPV4
     if(is_dhcp_required)
     {
         /* TO DO :  Save the current power save state */
@@ -382,6 +428,7 @@ cy_rslt_t cy_lwip_network_up()
         ip4_addr_set_zero(&ip_addr);
         netif_set_ipaddr(net_interface, &ip_addr);
 
+        /* TO DO : DHCPV6 need to be handled when we support IPV6 addresses other than the link local address */
         /* Start DHCP */
         if(netifapi_dhcp_start(net_interface) != CY_RSLT_SUCCESS)
         {
@@ -392,12 +439,14 @@ cy_rslt_t cy_lwip_network_up()
         vTaskDelay(10);
         /*TO DO : enable power save */
     }
+#endif
+
     return CY_RSLT_SUCCESS;
 }
 
-cy_rslt_t cy_lwip_network_down()
+cy_rslt_t cy_lwip_network_down(void)
 {
-
+#if LWIP_IPV4
     if(is_dhcp_required)
     {
         netifapi_dhcp_release_and_stop(net_interface);
@@ -405,6 +454,7 @@ cy_rslt_t cy_lwip_network_down()
     }
 
     dhcp_cleanup(net_interface);
+#endif
     /*
     * Bring down the network link layer
     */
@@ -438,8 +488,8 @@ void cy_network_activity_register_cb(cy_network_activity_event_callback_t cb)
     /* update the activity callback with the argument passed */
     activity_callback = cb;
 }
-
-cy_rslt_t cy_lwip_dhcp_renew()
+#if LWIP_IPV4
+cy_rslt_t cy_lwip_dhcp_renew(void)
 {
     /* Invalidate ARP entries */
     netifapi_netif_common(net_interface, (netifapi_void_fn) invalidate_all_arp_entries, NULL );
@@ -450,7 +500,6 @@ cy_rslt_t cy_lwip_dhcp_renew()
     vTaskDelay(100);
     return CY_RSLT_SUCCESS;
 }
-
 /**
  * Remove all ARP table entries of the specified netif.
  * @param netif points to a network interface
@@ -461,6 +510,7 @@ static void invalidate_all_arp_entries(struct netif *netif)
     etharp_cleanup_netif(netif);
 
 }
+#endif
 
 /* Used to register callback for EAPOL packets */
 whd_result_t cy_eapol_register_receive_handler( cy_eapol_packet_handler_t eapol_packet_handler )

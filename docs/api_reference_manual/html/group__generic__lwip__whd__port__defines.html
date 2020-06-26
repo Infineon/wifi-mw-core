@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Cypress WiFi middleware core: CY generic LwIP WHD glue results/error codes</title>
+<title>WiFi middleware core: CY generic lwIP WHD glue results/error codes</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><a href="http://www.cypress.com/"><img alt="Logo" src="cypress_logo.png"/></a></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Cypress WiFi middleware core</div>
+   <div id="projectname">WiFi middleware core</div>
   </td>
  </tr>
  </tbody>
@@ -83,11 +83,11 @@ $(document).ready(function(){initNavTree('group__generic__lwip__whd__port__defin
   <div class="summary">
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">CY generic LwIP WHD glue results/error codes</div>  </div>
+<div class="title">CY generic lwIP WHD glue results/error codes</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">General Description</h2>
-<p>Cypress middleware APIs return results of type cy_rslt_t and comprise of three parts: </p>
+<p>WiFi middleware core APIs return results of type cy_rslt_t and comprise of three parts: </p>
 <ul>
 <li>module base</li>
 <li>type</li>
@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('group__generic__lwip__whd__port__defin
 
 Refer to the macro section of this document for library specific error codes.
 </pre><p>The data structure cy_rslt_t is part of cy_result.h located in &lt;core_lib/include&gt;</p>
-<p>Module base: This base is derived from CY_RSLT_MODULE_MIDDLEWARE_BASE (defined in cy_result.h) and is an offset of the CY_RSLT_MODULE_MIDDLEWARE_BASE The details of the offset and the middleware base are defined in cy_result_mw.h, that is part of <a href="https://github.com/cypresssemiconductorco/connectivity-utilities">Github connectivity-utilities</a> For instance, LwIP WHD PORT (CY_LWP_WHD_PORT) uses CY_RSLT_MODULE_LWIP_WHD_PORT_BASE as the module base</p>
+<p>Module base: This base is derived from CY_RSLT_MODULE_MIDDLEWARE_BASE (defined in cy_result.h) and is an offset of the CY_RSLT_MODULE_MIDDLEWARE_BASE The details of the offset and the middleware base are defined in cy_result_mw.h, that is part of <a href="https://github.com/cypresssemiconductorco/connectivity-utilities">Github connectivity-utilities</a> For instance, lwIP WHD PORT (CY_LWP_WHD_PORT) uses CY_RSLT_MODULE_LWIP_WHD_PORT_BASE as the module base</p>
 <p>Type: This type is defined in cy_result.h and can be one of CY_RSLT_TYPE_FATAL, CY_RSLT_TYPE_ERROR, CY_RSLT_TYPE_WARNING or CY_RSLT_TYPE_INFO. AWS library error codes are of type CY_RSLT_TYPE_ERROR</p>
 <p>Library specific error code: These error codes are library specific and defined in macro section</p>
 <p>Helper macros used for creating the library specific result are provided as part of cy_result.h </p>
@@ -153,7 +153,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath">
     <ul>
         <li class="footer">
-            Generated for <b>Cypress WiFi middleware core</b> by <b>Cypress Semiconductor Corporation</b>.
+            Generated for <b>WiFi middleware core</b> by <b>Cypress Semiconductor Corporation</b>.
             All rights reserved.
         </li>
     </ul>

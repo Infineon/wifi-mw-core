@@ -35,6 +35,8 @@
 
 #define MEM_ALIGNMENT                   (4)
 
+#define LWIP_RAW                        (1)
+
 //
 // Enable IPV4 networking
 //
@@ -44,10 +46,6 @@
 // Enable IPV6 networking
 //
 #define LWIP_IPV6                       (1)
-#define LWIP_IPV6_AUTOCONFIG            (1)
-#define LWIP_IPV6_SEND_ROUTER_SOLICIT   (1)
-#define LWIP_ICMP6                      (1)
-#define LWIP_IPV6_MLD                   (1)
 
 #define ETHARP_SUPPORT_STATIC_ENTRIES   (1)
 
@@ -116,18 +114,18 @@
 //
 #define TCP_MSS                         (WHD_PAYLOAD_MTU)
 
-#define 	LWIP_CHECKSUM_CTRL_PER_NETIF   1
-#define 	CHECKSUM_GEN_IP   1
-#define 	CHECKSUM_GEN_UDP   1
-#define 	CHECKSUM_GEN_TCP   1
-#define 	CHECKSUM_GEN_ICMP   1
-#define 	CHECKSUM_GEN_ICMP6   1
-#define 	CHECKSUM_CHECK_IP   1
-#define 	CHECKSUM_CHECK_UDP   1
-#define 	CHECKSUM_CHECK_TCP   1
-#define 	CHECKSUM_CHECK_ICMP   1
-#define 	CHECKSUM_CHECK_ICMP6   1
-#define 	LWIP_CHECKSUM_ON_COPY   1
+#define     LWIP_CHECKSUM_CTRL_PER_NETIF   1
+#define     CHECKSUM_GEN_IP   1
+#define     CHECKSUM_GEN_UDP   1
+#define     CHECKSUM_GEN_TCP   1
+#define     CHECKSUM_GEN_ICMP   1
+#define     CHECKSUM_GEN_ICMP6   1
+#define     CHECKSUM_CHECK_IP   1
+#define     CHECKSUM_CHECK_UDP   1
+#define     CHECKSUM_CHECK_TCP   1
+#define     CHECKSUM_CHECK_ICMP   1
+#define     CHECKSUM_CHECK_ICMP6   1
+#define     LWIP_CHECKSUM_ON_COPY   1
 
 //
 // Enable the thread safe NETCONN interface layer

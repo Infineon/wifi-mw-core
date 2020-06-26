@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "Cypress WiFi middleware core", "index.html", [
+  [ "WiFi middleware core", "index.html", [
     [ "Overview", "index.html", null ],
     [ "API Reference", "modules.html", "modules" ]
   ] ]

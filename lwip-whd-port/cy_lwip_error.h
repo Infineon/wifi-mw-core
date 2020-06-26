@@ -27,9 +27,9 @@ extern "C" {
 #include "cy_result_mw.h"
 
 /**
- * @defgroup generic_lwip_whd_port_defines CY generic LwIP WHD glue results/error codes
+ * @defgroup generic_lwip_whd_port_defines CY generic lwIP WHD glue results/error codes
  * @ingroup group_utils_enums
- * Cypress middleware APIs return results of type cy_rslt_t and comprise of three parts:
+ * WiFi middleware core APIs return results of type cy_rslt_t and comprise of three parts:
  * - module base
  * - type
  * - error code
@@ -50,7 +50,7 @@ extern "C" {
  *
  * Module base: This base is derived from CY_RSLT_MODULE_MIDDLEWARE_BASE (defined in cy_result.h) and is an offset of the CY_RSLT_MODULE_MIDDLEWARE_BASE
  *              The details of the offset and the middleware base are defined in cy_result_mw.h, that is part of [Github connectivity-utilities] (https://github.com/cypresssemiconductorco/connectivity-utilities)
- *              For instance, LwIP WHD PORT (CY_LWP_WHD_PORT) uses CY_RSLT_MODULE_LWIP_WHD_PORT_BASE as the module base
+ *              For instance, lwIP WHD PORT (CY_LWP_WHD_PORT) uses CY_RSLT_MODULE_LWIP_WHD_PORT_BASE as the module base
  *
  * Type: This type is defined in cy_result.h and can be one of CY_RSLT_TYPE_FATAL, CY_RSLT_TYPE_ERROR, CY_RSLT_TYPE_WARNING or CY_RSLT_TYPE_INFO. AWS library error codes are of type CY_RSLT_TYPE_ERROR
  *

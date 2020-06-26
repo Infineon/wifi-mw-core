@@ -16,9 +16,9 @@
  */
 
 /**
-* \addtogroup group_lwip_whd_port LwIP and WHD port
+* \addtogroup group_lwip_whd_port lwIP and WHD port
 * \{
-* Functions for dealing with linking the LwIP TCP/IP stack with WiFi Host Driver
+* Functions for dealing with linking the lwIP TCP/IP stack with WiFi Host Driver
 *
 * \defgroup group_lwip_whd_port_functions Functions
 * \defgroup group_lwip_whd_port_structures Structures
@@ -66,43 +66,44 @@ typedef struct ip_static
 typedef void (*cy_eapol_packet_handler_t) (whd_buffer_t buffer, whd_interface_t interface);
 
 /**
- * Add a WHD wifi interface to LwIP and bring it up
+ * Add a WHD wifi interface to lwIP and bring it up
  * This is the entry point in this file.  This function takes a WHD radio driver
- * and adds the interface to LwIP, configures the optional static ip and
+ * and adds the interface to lwIP, configures the optional static ip and
  * registers to IP change callback. Currently only one interface is added
  * and this is added as default interface. \n
  * Note : In future additionl interfaces will be supported.
  *
- * @param[in] iface Interface to be added to LwIP
- * @param[in] ipaddr IPv4/IPv6 address information associated with the interface
- * @return CY_RESULT_SUCCESS for successful addition to LwIP or error otherwise
+ * @param[in] iface Interface to be added to lwIP
+ * @param[in] ipaddr IPv4/IPv6 address information associated with the interface. IP address need to be passed in network byte order.
+ * @return CY_RESULT_SUCCESS for successful addition to lwIP or error otherwise
  */
 cy_rslt_t cy_lwip_add_interface(whd_interface_t iface, ip_static_addr_t *ipaddr) ;
 
 /**
- * Removes a WHD wifi interface from LwIP.
- * This function takes a WHD radio driver handle and removes the LwIP network interface.
+ * Removes a WHD wifi interface from lwIP.
+ * This function takes a WHD radio driver handle and removes the lwIP network interface.
  *
- * @param[in] iface Interface to be removed from LwIP
+ * @param[in] iface Interface to be removed from lwIP
  *
  * @return CY_RSLT_SUCCESS if successful, failure code otherwise.
  */
 cy_rslt_t cy_lwip_remove_interface(whd_interface_t iface);
 
 /**
- * Return the single LwIP network interface.
+ * Return the single lwIP network interface.
  *
  * @return netif structure of the WHD interface
  */
-struct netif *cy_lwip_get_interface() ;
+struct netif *cy_lwip_get_interface(void) ;
 
 /**
  * This function brings up the network link layer and setups the network interface
- *  and starts DHCP if required
+ * and starts DHCP if required. Also waits for IPV6 link local address to be configured, if IPv6 is enabled.
+ * Once the IPv6 link local address is ready, it prints the address else prints it's status.
  *
  *  @return CY_RSLT_SUCCESS if successful, failure code otherwise.
  */
-cy_rslt_t cy_lwip_network_up();
+cy_rslt_t cy_lwip_network_up(void);
 
 /**
  * This function brings down the network interface, brings down the network link layer
@@ -110,20 +111,21 @@ cy_rslt_t cy_lwip_network_up();
  *
  * @return CY_RSLT_SUCCESS if successful, failure code otherwise.
  */
-cy_rslt_t cy_lwip_network_down();
+cy_rslt_t cy_lwip_network_down(void);
 
+#if LWIP_IPV4
 /**
  * This function Invalidates all the ARP entries and renews the DHCP, typically
  * used when handshake failure occurs
  *
  * @return CY_RSLT_SUCCESS if successful, failure code otherwise.
  */
-cy_rslt_t cy_lwip_dhcp_renew();
-
+cy_rslt_t cy_lwip_dhcp_renew(void);
+#endif
 /**
  *
  * This function takes packets from the radio driver and passes them into the
- * lwIP stack.  If the stack is not initialized, or if the LwIP stack does not
+ * lwIP stack.  If the stack is not initialized, or if the lwIP stack does not
  * accept the packet, the packet is freed (dropped).
  * This function will be registered as part of the whd_netif_funcs defined in whd.h
  * of the WiFi Host Driver
@@ -159,7 +161,7 @@ typedef void (*cy_lwip_ip_change_callback_t)(void *data);
 void cy_network_activity_register_cb(cy_network_activity_event_callback_t cb);
 
 /**
- * This function helps to register/unregister for any IP changes from LwIP.
+ * This function helps to register/unregister for any IP changes from lwIP.
  * Passing "NULL" as callback will deregister the IP changes callback
  *
  * @param[in] cb IP change callback function
