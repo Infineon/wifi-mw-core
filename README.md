@@ -20,11 +20,11 @@ The following components are part of this library. These components are bundled 
 
    **Note**: Using this library in a project will cause mbed TLS to be downloaded on your computer. It is your responsibility to understand and accept the mbed TLS license and regional use restrictions (including abiding by all applicable export control laws).
 
-- **RTOS Abstraction Layer** - The RTOS Abstraction APIs allow middleware to be written to be RTOS-aware, but without depending on any particular RTOS. See the RTOS Abstraction Layer](https://github.com/cypresssemiconductorco/abstraction-rtos) repository for details.
+- **RTOS Abstraction Layer** - The RTOS Abstraction APIs allow middleware to be written to be RTOS-aware, but without depending on any particular RTOS. See the [RTOS Abstraction Layer](https://github.com/cypresssemiconductorco/abstraction-rtos) repository for details.
 
 - **Secure Sockets** - Network abstraction APIs for the underlying lwIP network stack and mbed TLS security library. The Secure Sockets Library eases application development by exposing a socket-like interface for both secure and non-secure socket communication. See the [Secure Sockets](https://github.com/cypresssemiconductorco/secure-sockets) repository for details.
 
-- **Predefined configuration files** - For FreeRTOS, lwIP, and mbed TLS for typical embedded IoT use cases. See **Integration Notes** section for details.
+- **Predefined configuration files** - For FreeRTOS, lwIP, and mbed TLS for typical embedded IoT use cases. See **Quick Start** section for details.
 
 - **Associated Glue Layer Between lwIP and WHD** 
 
@@ -36,6 +36,8 @@ This library and its features are supported on the following PSoC 6 platforms:
 - [PSoC 6 Wi-Fi-BT Prototyping Kit (CY8CPROTO-062-4343W)](https://www.cypress.com/documentation/development-kitsboards/psoc-6-wi-fi-bt-prototyping-kit-cy8cproto-062-4343w)
 
 - [PSoC 62S2 Wi-Fi BT Pioneer Kit (CY8CKIT-062S2-43012)](https://www.cypress.com/documentation/development-kitsboards/psoc-62s2-wi-fi-bt-pioneer-kit-cy8ckit-062s2-43012)
+
+- [PSoC 6 WiFi-BT Pioneer Kit (CY8CKIT-062-WiFi-BT)](https://www.cypress.com/documentation/development-kitsboards/psoc-6-wifi-bt-pioneer-kit-cy8ckit-062-wifi-bt)
 
 ## Quick Start
 1. A set of pre-defined configuration files have been bundled with this library for FreeRTOS, lwIP, and mbed TLS. These files are located in the *configs* folder.
@@ -56,18 +58,29 @@ This library and its features are supported on the following PSoC 6 platforms:
        DEFINES+=CYBSP_WIFI_CAPABLE
        ```
 
-2. Wi-Fi Middleware Core Library requires FreeRTOS config *configENABLE_BACKWARD_COMPATIBILITY* to be enabled. By default, FreeRTOS enables this config. You must not disable this config in the *FreeRTOSConfig.h* file.
+   - Add the `CY_RTOS_AWARE` build configuration to inform the HAL that an RTOS environment is being used. The Makefile entry would look like as follows:
 
-3. Secure Sockets, lwIP, and mbed TLS libraries contain reference and test applications. To ensure that these applications do not conflict with the code examples, a *.cyignore* file is also included with this library.
+       ```
+       DEFINES+=CY_RTOS_AWARE
+       ```
 
-4. Add the following to COMPONENTS in the code example project's Makefile - `FREERTOS`, `PSOC6HAL`, `LWIP`, `MBEDTLS`, and either `4343W` or `43012` depending on the platform.
+   - Application which wants to use Automatic Private IP Addressing (Auto IP) should enable LWIP_AUTOIP and LWIP_DHCP_AUTOIP_COOP in lwipopts.h like as follows:
+
+       ```
+       #define AUTOIP 1
+       #define LWIP_DHCP_AUTOIP_COOP 1
+       ```
+
+2. Secure Sockets, lwIP, and mbed TLS libraries contain reference and test applications. To ensure that these applications do not conflict with the code examples, a *.cyignore* file is also included with this library.
+
+3. Add the following to COMPONENTS in the code example project's Makefile - `FREERTOS`, `PSOC6HAL`, `LWIP`, `MBEDTLS`, and either `4343W` or `43012` depending on the platform.
 
    For example, if your target is CY8CKIT-062S2-43012, the Makefile entry would look like as follows:
 
    ```
    COMPONENTS=FREERTOS PSOC6HAL LWIP MBEDTLS 43012
    ```
-5. wifi-mw-core library disables all the debug log messages by default. To enable log messages, the application must perform the following:
+4. wifi-mw-core library disables all the debug log messages by default. To enable log messages, the application must perform the following:
  - Add `ENABLE_WIFI_MIDDLEWARE_LOGS` macro to the *DEFINES* in the code example's Makefile. The Makefile entry would look like as follows:
   ```
   DEFINES+=ENABLE_WIFI_MIDDLEWARE_LOGS

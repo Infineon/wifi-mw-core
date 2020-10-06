@@ -114,7 +114,7 @@
 #undef MBEDTLS_ECP_DP_BP256R1_ENABLED
 #undef MBEDTLS_ECP_DP_BP384R1_ENABLED
 #undef MBEDTLS_ECP_DP_BP512R1_ENABLED
-#undef MBEDTLS_ECP_DP_CURVE25519_ENABLED
+//#undef MBEDTLS_ECP_DP_CURVE25519_ENABLED
 #undef MBEDTLS_ECP_DP_CURVE448_ENABLED
 
 /**
@@ -489,5 +489,225 @@
  * This module is used for reading X.509 certificate request.
  */
 #undef MBEDTLS_X509_CSR_PARSE_C
+
+/**
+ * \def MBEDTLS_X509_CREATE_C
+ *
+ * Enable X.509 core for creating certificates.
+ *
+ * Module:  library/x509_create.c
+ *
+ * Requires: MBEDTLS_BIGNUM_C, MBEDTLS_OID_C, MBEDTLS_PK_WRITE_C
+ *
+ * This module is the basis for creating X.509 certificates and CSRs.
+ */
+#undef MBEDTLS_X509_CREATE_C
+
+/**
+ * \def MBEDTLS_X509_CSR_WRITE_C
+ *
+ * Enable creating X.509 Certificate Signing Requests (CSR).
+ *
+ * Module:  library/x509_csr_write.c
+ *
+ * Requires: MBEDTLS_X509_CREATE_C
+ *
+ * This module is required for X.509 certificate request writing.
+ */
+#undef MBEDTLS_X509_CSR_WRITE_C
+
+/**
+ * \def MBEDTLS_X509_CRT_WRITE_C
+ *
+ * Enable creating X.509 certificates.
+ *
+ * Module:  library/x509_crt_write.c
+ *
+ * Requires: MBEDTLS_X509_CREATE_C
+ *
+ * This module is required for X.509 certificate creation.
+ */
+#undef MBEDTLS_X509_CRT_WRITE_C
+
+/**
+ * \def MBEDTLS_CERTS_C
+ *
+ * Enable the test certificates.
+ *
+ * Module:  library/certs.c
+ * Caller:
+ *
+ * This module is used for testing (ssl_client/server).
+ */
+#undef MBEDTLS_CERTS_C
+
+/**
+ * \def MBEDTLS_ERROR_C
+ *
+ * Enable error code to error string conversion.
+ *
+ * Module:  library/error.c
+ * Caller:
+ *
+ * This module enables mbedtls_strerror().
+ */
+#undef MBEDTLS_ERROR_C
+
+/**
+ * \def MBEDTLS_PADLOCK_C
+ *
+ * Enable VIA Padlock support on x86.
+ *
+ * Module:  library/padlock.c
+ * Caller:  library/aes.c
+ *
+ * Requires: MBEDTLS_HAVE_ASM
+ *
+ * This modules adds support for the VIA PadLock on x86.
+ */
+#undef MBEDTLS_PADLOCK_C
+
+/**
+ * \def MBEDTLS_RIPEMD160_C
+ *
+ * Enable the RIPEMD-160 hash algorithm.
+ *
+ * Module:  library/ripemd160.c
+ * Caller:  library/md.c
+ *
+ */
+#undef MBEDTLS_RIPEMD160_C
+
+/**
+ * \def MBEDTLS_PK_RSA_ALT_SUPPORT
+ *
+ * Support external private RSA keys (eg from a HSM) in the PK layer.
+ *
+ * Comment this macro to disable support for external private RSA keys.
+ */
+#undef MBEDTLS_PK_RSA_ALT_SUPPORT
+
+/**
+ * \def MBEDTLS_ARC4_C
+ *
+ * Enable the ARCFOUR stream cipher.
+ *
+ * Module:  library/arc4.c
+ * Caller:  library/cipher.c
+ *
+ * This module enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_ECDH_ECDSA_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_ECDH_RSA_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_ECDHE_ECDSA_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_ECDHE_RSA_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_RSA_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_RSA_WITH_RC4_128_MD5
+ *      MBEDTLS_TLS_RSA_PSK_WITH_RC4_128_SHA
+ *      MBEDTLS_TLS_PSK_WITH_RC4_128_SHA
+ *
+ * \warning   ARC4 is considered a weak cipher and its use constitutes a
+ *            security risk. If possible, we recommend avoidng dependencies on
+ *            it, and considering stronger ciphers instead.
+ *
+ */
+#undef MBEDTLS_ARC4_C
+
+/**
+ * \def MBEDTLS_XTEA_C
+ *
+ * Enable the XTEA block cipher.
+ *
+ * Module:  library/xtea.c
+ * Caller:
+ */
+#undef MBEDTLS_XTEA_C
+
+/**
+ * \def MBEDTLS_BLOWFISH_C
+ *
+ * Enable the Blowfish block cipher.
+ *
+ * Module:  library/blowfish.c
+ */
+#undef MBEDTLS_BLOWFISH_C
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED
+ *
+ * Enable the DHE-PSK based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_DHM_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_CBC_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_256_GCM_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_256_CBC_SHA384
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_128_GCM_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_CAMELLIA_128_CBC_SHA256
+ *      MBEDTLS_TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA
+ *      MBEDTLS_TLS_DHE_PSK_WITH_RC4_128_SHA
+ *
+ * \warning    Using DHE constitutes a security risk as it
+ *             is not possible to validate custom DH parameters.
+ *             If possible, it is recommended users should consider
+ *             preferring other methods of key exchange.
+ *             See dhm.h for more details.
+ *
+ */
+#undef MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED
+ *
+ * Enable the ECDHE-PSK based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_ECDH_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_CAMELLIA_256_CBC_SHA384
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_CAMELLIA_128_CBC_SHA256
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA
+ *      MBEDTLS_TLS_ECDHE_PSK_WITH_RC4_128_SHA
+ */
+#undef MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED
+
+/**
+ * \def MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED
+ *
+ * Enable the RSA-PSK based ciphersuite modes in SSL / TLS.
+ *
+ * Requires: MBEDTLS_RSA_C, MBEDTLS_PKCS1_V15,
+ *           MBEDTLS_X509_CRT_PARSE_C
+ *
+ * This enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_256_GCM_SHA384
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_256_CBC_SHA384
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_256_CBC_SHA
+ *      MBEDTLS_TLS_RSA_PSK_WITH_CAMELLIA_256_GCM_SHA384
+ *      MBEDTLS_TLS_RSA_PSK_WITH_CAMELLIA_256_CBC_SHA384
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_128_GCM_SHA256
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA256
+ *      MBEDTLS_TLS_RSA_PSK_WITH_AES_128_CBC_SHA
+ *      MBEDTLS_TLS_RSA_PSK_WITH_CAMELLIA_128_GCM_SHA256
+ *      MBEDTLS_TLS_RSA_PSK_WITH_CAMELLIA_128_CBC_SHA256
+ *      MBEDTLS_TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA
+ *      MBEDTLS_TLS_RSA_PSK_WITH_RC4_128_SHA
+ */
+#undef MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED
 
 #endif /* MBEDTLS_USER_CONFIG_HEADER */

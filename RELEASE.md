@@ -4,6 +4,12 @@
 See the [README.md](./README.md) for a complete description of the Wi-Fi Middleware Core Library.
 
 ## Changelog
+### v3.0.0
+* Added support for SoftAP network interface.
+* Added support for simultaneous working of multiple network interfaces such as STA and AP (Concurrent mode).
+* Added internal DHCP server support for SoftAP mode.
+* Added support for Automatic Private IP Addressing (Auto IP) for STA mode.
+
 ### v2.1.0
 * IPv6 link local address support added
 * Updated lwIP and FreeRTOS reference config files
@@ -21,12 +27,11 @@ This version of the library was validated for compatibility with the following s
 
 | Software and Tools                                      | Version |
 | :---                                                    | :----:  |
-| ModusToolbox Software Environment                       | 2.1     |
-| - ModusToolbox Device Configurator                      | 2.1     |
-| - ModusToolbox CSD Personality in Device Configurator   | 2.0     |
-| - ModusToolbox CapSense Configurator / Tuner tools      | 3.0     |
-| PSoC 6 Peripheral Driver Library (PDL)                  | 1.5.1   |
-| GCC Compiler                                            | 7.2.1   |
+| ModusToolbox Software Environment                       | 2.2     |
+| - ModusToolbox Device Configurator                      | 2.20    |
+| - ModusToolbox CapSense Configurator / Tuner tools      | 3.10    |
+| PSoC 6 Peripheral Driver Library (PDL)                  | 2.0.0   |
+| GCC Compiler                                            | 9.3.1   |
 | IAR Compiler                                            | 8.32    |
 
 ## Additional Information

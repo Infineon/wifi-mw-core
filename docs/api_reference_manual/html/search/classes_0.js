@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ip_5fstatic_5faddr_5ft',['ip_static_addr_t',['../structip__static__addr__t.html',1,'']]]
+  ['cy_5flwip_5fnw_5finterface_5ft',['cy_lwip_nw_interface_t',['../structcy__lwip__nw__interface__t.html',1,'']]]
 ];

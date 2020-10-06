@@ -42,6 +42,17 @@
 //
 #define LWIP_IPV4                       (1)
 
+/**
+ * LWIP_AUTOIP==1: Enable AUTOIP module.
+ */
+// #define LWIP_AUTOIP                  (1)
+
+/**
+ * LWIP_DHCP_AUTOIP_COOP==1: Allow DHCP and AUTOIP to be both enabled on
+ * the same interface at the same time.
+ */
+// #define LWIP_DHCP_AUTOIP_COOP        (1)
+
 //
 // Enable IPV6 networking
 //
@@ -76,7 +87,6 @@
 //
 #define LWIP_TIMEVAL_PRIVATE            (0)
 #endif
-
 
 //
 // Make sure DHCP is part of the stack
@@ -160,7 +170,7 @@
 
 #define LWIP_SOCKET                     (1)
 #define LWIP_NETCONN                    (1)
-#define DEFAULT_TCP_RECVMBOX_SIZE       (6)
+#define DEFAULT_TCP_RECVMBOX_SIZE       (12)
 #define TCPIP_MBOX_SIZE                 (16)
 #define TCPIP_THREAD_STACKSIZE          (4*1024)
 #define TCPIP_THREAD_PRIO               (4)
@@ -215,6 +225,13 @@
  */
 #define MEMP_NUM_NETCONN                16
 
+
+/* Turn off LWIP_STATS in Release build */
+#ifdef DEBUG
+#define LWIP_STATS 1
+#else
+#define LWIP_STATS 0
+#endif
 
 /**
  * LWIP_TCPIP_CORE_LOCKING

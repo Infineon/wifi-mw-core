@@ -101,10 +101,11 @@ Features and functionality</h1>
 </li>
 <li>RTOS Abstraction Layer - The RTOS Abstraction APIs allow middleware to be written to be RTOS aware, but without depending on any particular RTOS. See <a href="https://github.com/cypresssemiconductorco/abstraction-rtos">RTOS Abstraction Layer</a>.</li>
 <li>Secure Sockets - Network abstraction APIs for underlying lwIP network stack and mbed TLS security library. Secure Sockets library eases application development by exposing a socket-like interface for both secure and non-secure socket communication. See <a href="https://github.com/cypresssemiconductorco/secure-sockets">Secure Sockets</a>.</li>
-<li>Predefined configuration files for FreeRTOS, lwIP and mbed TLS for typical embedded IoT use-cases. See the "Integration Notes" section for details.</li>
+<li>Predefined configuration files for FreeRTOS, lwIP and mbed TLS for typical embedded IoT use-cases. See the "Quick Start" section for details.</li>
 <li>Associated glue layer between lwIP and WHD</li>
 </ul>
 <p>This library is designed to work with PSoC 6 kits with Wi-Fi capability, supported through the ModusToolbox software environment.</p>
+<p>In order to enable Wi-Fi connectivity on platforms with smaller memory footprint, a set of LwIP and MbedTLS configuration parameters that can be enabled/disabled have been documented here <a class="el" href="group__group__optimization__config.html">Optimization of Wi-Fi Middleware Core</a></p>
 <h1><a class="anchor" id="section_platforms"></a>
 Supported Platforms</h1>
 <p>This library and its features are supported on the following PSoC 6 platforms:</p><ul>
@@ -118,9 +119,9 @@ Quick Start</h1>
 <li>Copy the FreeRTOSConfig.h, lwipopts.h, and mbedtls_user_config.h files from the configs directory to the top-level code example directory in the project.</li>
 <li>Configure C Macro MBEDTLS_USER_CONFIG_FILE to "mbedtls_user_config.h" in the Makefile to provide the user configuration to the mbed TLS library. The Makefile entry would look like, <div class="fragment"><div class="line">DEFINES+=MBEDTLS_USER_CONFIG_FILE=<span class="stringliteral">&#39;&quot;mbedtls_user_config.h&quot;&#39;</span></div></div><!-- fragment --></li>
 <li>Add the CYBSP_WIFI_CAPABLE build configuration to enable Wi-Fi functionality. The Makefile entry would look like, <div class="fragment"><div class="line">DEFINES+=CYBSP_WIFI_CAPABLE</div></div><!-- fragment --></li>
+<li>Add the CY_RTOS_AWARE build configuration to inform the HAL that an RTOS environment is being used. The Makefile entry would look like, <div class="fragment"><div class="line">DEFINES+=CY_RTOS_AWARE</div></div><!-- fragment --></li>
 </ul>
 </li>
-<li>Wi-Fi Middleware Core Library requires FreeRTOS config <em>configENABLE_BACKWARD_COMPATIBILITY</em> to be enabled. By default, FreeRTOS enables this config. You must not disable this config in the FreeRTOSConfig.h file.</li>
 <li>Secure Sockets, lwIP, and mbed TLS libraries contain reference and test applications. For these applications to not conflict with the code examples, a .cyignore file is also included with this library.</li>
 <li>Add the following to COMPONENTS in the code example project's Makefile - FREERTOS, PSOC6HAL, LWIP, MBEDTLS and either 4343W or 43012 depending on the platform. For example, if CY8CKIT-062S2-43012 is chosen, the Makefile entry would look like, <div class="fragment"><div class="line">COMPONENTS=FREERTOS PSOC6HAL LWIP MBEDTLS 43012</div></div><!-- fragment --> </li>
 </ul>

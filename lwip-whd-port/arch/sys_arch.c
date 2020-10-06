@@ -189,7 +189,7 @@ sys_arch_unprotect(sys_prot_t pval)
 void
 sys_arch_msleep(u32_t delay_ms)
 {
-  TickType_t delay_ticks = delay_ms / portTICK_RATE_MS;
+  TickType_t delay_ticks = delay_ms / portTICK_PERIOD_MS;
   vTaskDelay(delay_ticks);
 }
 
@@ -291,7 +291,7 @@ sys_arch_sem_wait(sys_sem_t *sem, u32_t timeout_ms)
     ret = xSemaphoreTake(sem->sem, portMAX_DELAY);
     LWIP_ASSERT("taking semaphore failed", ret == pdTRUE);
   } else {
-    TickType_t timeout_ticks = timeout_ms / portTICK_RATE_MS;
+    TickType_t timeout_ticks = timeout_ms / portTICK_PERIOD_MS;
     ret = xSemaphoreTake(sem->sem, timeout_ticks);
     if (ret == errQUEUE_EMPTY) {
       /* timed out */
@@ -398,7 +398,7 @@ sys_arch_mbox_fetch(sys_mbox_t *mbox, void **msg, u32_t timeout_ms)
     ret = xQueueReceive(mbox->mbx, &(*msg), portMAX_DELAY);
     LWIP_ASSERT("mbox fetch failed", ret == pdTRUE);
   } else {
-    TickType_t timeout_ticks = timeout_ms / portTICK_RATE_MS;
+    TickType_t timeout_ticks = timeout_ms / portTICK_PERIOD_MS;
     ret = xQueueReceive(mbox->mbx, &(*msg), timeout_ticks);
     if (ret == errQUEUE_EMPTY) {
       /* timed out */

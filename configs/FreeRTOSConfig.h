@@ -67,6 +67,8 @@
 #define configUSE_COUNTING_SEMAPHORES           1
 #define configQUEUE_REGISTRY_SIZE               10
 #define configUSE_NEWLIB_REENTRANT              1
+#define configENABLE_BACKWARD_COMPATIBILITY     0
+
 /* Memory allocation related definitions. */
 #define configSUPPORT_STATIC_ALLOCATION         1
 #define configSUPPORT_DYNAMIC_ALLOCATION        1
