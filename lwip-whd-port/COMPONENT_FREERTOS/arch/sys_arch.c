@@ -323,7 +323,12 @@ sys_mbox_new(sys_mbox_t *mbox, int size)
   LWIP_ASSERT("mbox != NULL", mbox != NULL);
   LWIP_ASSERT("size > 0", size > 0);
 
-  mbox->mbx = xQueueCreate((UBaseType_t)size, sizeof(void *));
+  /*
+   *  FALSE-POSITIVE: CID 34515: Wrong sizeof argument
+   *  Reason:
+   *     sizeof(void *) is used intentionally to find the size of a pointer.
+   */
+  mbox->mbx = (void *)xQueueCreate((UBaseType_t)size, sizeof(void *));
   if(mbox->mbx == NULL) {
     SYS_STATS_INC(mbox.err);
     return ERR_MEM;

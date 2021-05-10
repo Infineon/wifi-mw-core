@@ -31,15 +31,54 @@
  * so agrees to indemnify Cypress against all liability.
 */
 
-#ifndef LIBS_WIFI_MW_CORE_LWIP_WHD_PORT_CY_LWIP_LOG_H_
-#define LIBS_WIFI_MW_CORE_LWIP_WHD_PORT_CY_LWIP_LOG_H_
+#pragma once
 
-#include "cy_log.h"
+#include "whd_wifi_api.h"
+#include "cy_result.h"
 
-#ifdef ENABLE_WIFI_MIDDLEWARE_LOGS
-#define wm_cy_log_msg cy_log_msg
-#else
-#define wm_cy_log_msg(a,b,c,...)
+#ifdef __cplusplus
+extern "C" {
 #endif
+/**
+* \addtogroup group_lwip_whd_port lwIP and WHD port
+* \{
+*
+* \defgroup group_wifimwcore_eapol_functions EAPOL Functions
+*/
 
-#endif /* LIBS_WIFI_MW_CORE_LWIP_WHD_PORT_CY_LWIP_LOG_H_ */
+/**
+* \addtogroup group_wifimwcore_eapol_functions
+* \{
+* * Provides functions which application or library can use to register and de-register.
+* * These APIs are generally used by enterprise security library.
+*/
+
+/**
+ * EAPOL packet handler function pointer type; On recieving EAPOL data, WHD will send the data to WiFi Middleware Core.
+ * The buffer should be freed by EAPOL handler.
+ *
+ * @param[in] interface  WHD interface.
+ * @param[in] buffer     buffer received from WHD.
+ *
+ */
+typedef void (*cy_wifimwcore_eapol_packet_handler_t) (whd_interface_t whd_iface, whd_buffer_t buffer);
+
+/**
+ *
+ * This API allows registering callback functions to receive EAPOL packets
+ * from WHD. If callback is registered and received packet is EAPOL packet
+ * then it will be directly redirected to registered callback. passing "NULL"
+ * as handler will de-register the previously registered callback
+ *
+ * @param[in] eapol_packet_handler : Callback function to be invoked when eapol packets are recieved from WHD.
+ *
+ * @return CY_RSLT_SUCCESS if the registration was successful; returns [WiFi middleware specific error codes](./cy_lwip_error.h) otherwise.
+ *
+ */
+cy_rslt_t cy_wifimwcore_eapol_register_receive_handler(cy_wifimwcore_eapol_packet_handler_t eapol_packet_handler);
+
+/** \} group_wifimwcore_eapol_functions */
+#ifdef __cplusplus
+}
+#endif
+/** \} group_lwip_whd_port */
