@@ -507,7 +507,7 @@ cy_rslt_t cy_lwip_remove_interface(cy_lwip_nw_interface_t *iface)
     }
 
     /* Interface can be removed only if the interface was previously added and network is down */
-    if(is_interface_added(iface->role))
+    if(!is_interface_added(iface->role))
     {
         wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "Error Interface doesn't exist \n");
         return CY_RSLT_LWIP_INTERFACE_DOES_NOT_EXIST;
@@ -553,7 +553,16 @@ cy_rslt_t cy_lwip_network_up(cy_lwip_nw_interface_t *iface)
     }
 
     /*
-    * Bring up the network interface
+     * If LPA is enabled, invoke activity callback to resume the network stack,
+     * before invoking the lwip APIs that requires TCP Core lock.
+     */
+    if (activity_callback)
+    {
+        activity_callback(true);
+    }
+
+    /*
+    * Bring up the network interface.
     */
     netifapi_netif_set_up((IP_HANDLE(iface->role)));
 
@@ -595,7 +604,26 @@ cy_rslt_t cy_lwip_network_up(cy_lwip_nw_interface_t *iface)
              * given from previous DHCP session
              */
             ip4_addr_set_zero(&ip_addr);
+
+            /*
+             * If LPA is enabled, invoke activity callback to resume the network stack,
+             * before invoking the lwip APIs that requires TCP Core lock.
+             */
+            if (activity_callback)
+            {
+                activity_callback(true);
+            }
+
             netif_set_ipaddr(IP_HANDLE(iface->role), &ip_addr);
+
+            /*
+             * If LPA is enabled, invoke activity callback to resume the network stack,
+             * before invoking the lwip APIs that requires TCP Core lock.
+             */
+            if (activity_callback)
+            {
+                activity_callback(true);
+            }
 
             /* TO DO : DHCPV6 need to be handled when we support IPV6 addresses other than the link local address */
             /* Start DHCP */
@@ -618,12 +646,29 @@ cy_rslt_t cy_lwip_network_up(cy_lwip_nw_interface_t *iface)
 
             if (timeout_occurred)
             {
+                /*
+                 * If LPA is enabled, invoke activity callback to resume the network stack,
+                 * before invoking the lwip APIs that requires TCP Core lock.
+                 */
+                if (activity_callback)
+                {
+                    activity_callback(true);
+                }
                 netifapi_dhcp_release_and_stop(IP_HANDLE(iface->role));
 #if LWIP_AUTOIP
                 int   tries = 0;
                 wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_INFO, "Unable to obtain IP address via DHCP. Perform Auto IP\n");
                 address_resolution_timeout = 0;
                 timeout_occurred            = false;
+
+                /*
+                 * If LPA is enabled, invoke activity callback to resume the network stack,
+                 * before invoking the lwip APIs that requires TCP Core lock.
+                 */
+                if (activity_callback)
+                {
+                    activity_callback(true);
+                }
 
                 if (autoip_start(IP_HANDLE(iface->role) ) != ERR_OK )
                 {
@@ -651,6 +696,16 @@ cy_rslt_t cy_lwip_network_up(cy_lwip_nw_interface_t *iface)
                 if (timeout_occurred)
                 {
                     wm_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "Unable to obtain IP address via DCHP and AutoIP\n");
+
+                    /*
+                     * If LPA is enabled, invoke activity callback to resume the network stack,
+                     * before invoking the lwip APIs that requires TCP Core lock.
+                     */
+                    if (activity_callback)
+                    {
+                        activity_callback(true);
+                    }
+
                     autoip_stop(IP_HANDLE(iface->role));
                     return CY_RSLT_LWIP_DHCP_WAIT_TIMEOUT;
                 }
@@ -700,13 +755,41 @@ cy_rslt_t cy_lwip_network_down(cy_lwip_nw_interface_t *iface)
 #if LWIP_AUTOIP
         if(netif_autoip_data(IP_HANDLE(iface->role))->state == AUTOIP_STATE_BOUND)
         {
+            /*
+             * If LPA is enabled, invoke activity callback to resume the network stack,
+             * before invoking the lwip APIs that requires TCP Core lock.
+             */
+            if (activity_callback)
+            {
+                activity_callback(true);
+            }
+
             autoip_stop(IP_HANDLE(iface->role));
         }
         else
 #endif
         {
+            /*
+             * If LPA is enabled, invoke activity callback to resume the network stack,
+             * before invoking the lwip APIs that requires TCP Core lock.
+             */
+            if (activity_callback)
+            {
+                activity_callback(true);
+            }
+
             netifapi_dhcp_release_and_stop(IP_HANDLE(iface->role));
             cy_rtos_delay_milliseconds(DHCP_STOP_DELAY_IN_MS);
+
+            /*
+             * If LPA is enabled, invoke activity callback to resume the network stack,
+             * before invoking the lwip APIs that requires TCP Core lock.
+             */
+            if (activity_callback)
+            {
+                activity_callback(true);
+            }
+
             dhcp_cleanup(IP_HANDLE(iface->role));
         }
     }
@@ -717,6 +800,16 @@ cy_rslt_t cy_lwip_network_down(cy_lwip_nw_interface_t *iface)
         cy_lwip_dhcp_server_stop(&internal_dhcp_server);
     }
 #endif
+
+    /*
+     * If LPA is enabled, invoke activity callback to resume the network stack,
+     * before invoking the lwip APIs that requires TCP Core lock.
+     */
+    if (activity_callback)
+    {
+        activity_callback(true);
+    }
+
     /*
     * Bring down the network link layer
     */
@@ -784,6 +877,16 @@ cy_rslt_t cy_lwip_dhcp_renew(cy_lwip_nw_interface_t *iface)
     }
     /* Invalidate ARP entries */
     netifapi_netif_common(IP_HANDLE(iface->role), (netifapi_void_fn) invalidate_all_arp_entries, NULL );
+
+
+    /*
+     * If LPA is enabled, invoke activity callback to resume the network stack,
+     * before invoking the lwip APIs that requires TCP Core lock.
+     */
+    if (activity_callback)
+    {
+        activity_callback(true);
+    }
 
     /* DHCP renewal*/
     netifapi_netif_common(IP_HANDLE(iface->role), (netifapi_void_fn)dhcp_renew, NULL);

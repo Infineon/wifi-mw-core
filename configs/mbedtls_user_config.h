@@ -785,4 +785,16 @@
  */
 #define MBEDTLS_DEPRECATED_REMOVED
 
+/**
+ * \def Enable MBEDTLS debug logs
+ *
+ * MBEDTLS_VERBOSE values:
+ * 0 No debug      - No logs are printed on console
+ * 1 Error         - Error messages are printed on console
+ * 2 State change  - State level change logs are printed on console
+ * 3 Informational - Informational logs printed on console
+ * 4 Verbose       - All the logs are printed on console
+ */
+#define MBEDTLS_VERBOSE 0
+
 #endif /* MBEDTLS_USER_CONFIG_HEADER */
