@@ -6,6 +6,9 @@ See the [README.md](./README.md) for a complete description of the Wi-Fi Middlew
 
 ## Changelog
 
+### v3.2.0
+- Added support for CYW943907AEVAL1F and CYW954907AEVAL1F kits
+
 ### v3.1.1
 - Upgraded mbed TLS version to v2.25
 

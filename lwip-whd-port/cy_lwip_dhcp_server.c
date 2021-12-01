@@ -46,6 +46,7 @@
 #include "cy_lwip_error.h"
 #include "cyabs_rtos.h"
 #include "cy_lwip_log.h"
+#include <string.h>
 
 /******************************************************
  *                      Macros

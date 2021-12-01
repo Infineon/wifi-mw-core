@@ -35,6 +35,5 @@ var searchData=
   ['cy_5frslt_5flwip_5fsocket_5ferror',['CY_RSLT_LWIP_SOCKET_ERROR',['../group__generic__lwip__whd__port__defines.html#ga6d9dc67a4f5570cd14f74dc55355128e',1,'cy_lwip_error.h']]],
   ['cy_5frslt_5flwip_5fwhd_5fport_5ferr_5fbase',['CY_RSLT_LWIP_WHD_PORT_ERR_BASE',['../group__generic__lwip__whd__port__defines.html#ga8bac0229b8c24c11e79036f78112f589',1,'cy_lwip_error.h']]],
   ['cy_5fwifimwcore_5feapol_5fpacket_5fhandler_5ft',['cy_wifimwcore_eapol_packet_handler_t',['../group__group__wifimwcore__eapol__functions.html#ga5d501ebe6f09b2f93384fc33de1617a0',1,'cy_wifimwcore_eapol.h']]],
-  ['cy_5fwifimwcore_5feapol_5fregister_5freceive_5fhandler',['cy_wifimwcore_eapol_register_receive_handler',['../group__group__wifimwcore__eapol__functions.html#gab3477cb9900a5387811bf337cb7d42b1',1,'cy_wifimwcore_eapol.h']]],
-  ['cy_20generic_20lwip_20whd_20glue_20results_2ferror_20codes',['CY generic lwIP WHD glue results/error codes',['../group__generic__lwip__whd__port__defines.html',1,'']]]
+  ['cy_5fwifimwcore_5feapol_5fregister_5freceive_5fhandler',['cy_wifimwcore_eapol_register_receive_handler',['../group__group__wifimwcore__eapol__functions.html#gab3477cb9900a5387811bf337cb7d42b1',1,'cy_wifimwcore_eapol.h']]]
 ];

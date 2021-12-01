@@ -62,6 +62,9 @@
 #include "cy_lwip_log.h"
 #include "cy_wifimwcore_eapol.h"
 
+#ifdef COMPONENT_43907
+#include "whd_wlioctl.h"
+#endif
 /* While using lwip/sockets errno is required. Since IAR and ARMC6 doesn't define errno variable, the below definition is required for building it successfully. */
 #if !( (defined(__GNUC__) && !defined(__ARMCC_VERSION)) )
 int errno;
@@ -93,6 +96,12 @@ struct  netif                                    *cy_lwip_ip_handle[MAX_NW_INTER
 
 #define MAX_AUTO_IP_RETRIES                      (5)
 
+#ifdef COMPONENT_43907
+#define CY_PRNG_SEED_FEEDBACK_MAX_LOOPS          (1000)
+#define CY_PRNG_CRC32_POLYNOMIAL                 (0xEDB88320)
+#define CY_PRNG_ADD_CYCLECNT_ENTROPY_EACH_N_BYTE (1024)
+#define CY_PRNG_WELL512_STATE_SIZE               (16)
+#endif
 /******************************************************
  *               Variable Definitions
  ******************************************************/
@@ -122,6 +131,17 @@ bool ip_networking_inited[MAX_NW_INTERFACE];
 bool ip_up[MAX_NW_INTERFACE];
 #define SET_IP_UP(interface, status)               (ip_up[(interface)&3] = status)
 
+#ifdef COMPONENT_43907
+static uint32_t prng_well512_state[ CY_PRNG_WELL512_STATE_SIZE ];
+static uint32_t prng_well512_index = 0;
+
+static uint32_t prng_add_cyclecnt_entropy_bytes = CY_PRNG_ADD_CYCLECNT_ENTROPY_EACH_N_BYTE;
+
+/** mutex to protect prng state array */
+static cy_mutex_t cy_prng_mutex;
+static cy_mutex_t *cy_prng_mutex_ptr;
+
+#endif
 /******************************************************
  *               Static Function Declarations
  ******************************************************/
@@ -132,6 +152,13 @@ static void invalidate_all_arp_entries(struct netif *netif);
 static bool is_interface_added(cy_lwip_nw_interface_role_t role);
 static cy_rslt_t is_interface_valid(cy_lwip_nw_interface_t *iface);
 static bool is_network_up(cy_lwip_nw_interface_role_t role);
+
+#ifdef COMPONENT_43907
+static uint32_t prng_well512_get_random ( void );
+static void     prng_well512_add_entropy( const void* buffer, uint16_t buffer_length );
+cy_rslt_t cy_prng_get_random( void* buffer, uint32_t buffer_length );
+cy_rslt_t cy_prng_add_entropy( const void* buffer, uint32_t buffer_length );
+#endif
 /******************************************************
  *               Function Definitions
  ******************************************************/
@@ -326,6 +353,11 @@ static err_t wifiinit(struct netif *iface)
     cy_rslt_t res;
     whd_mac_t macaddr;
     whd_interface_t whd_iface = (whd_interface_t)iface->state;
+#ifdef COMPONENT_43907
+    whd_buffer_t buffer;
+    whd_buffer_t response;
+    uint32_t *wlan_rand = NULL;
+#endif
 
     /*
      * Set the MAC address of the interface
@@ -340,6 +372,52 @@ static err_t wifiinit(struct netif *iface)
     memcpy(&iface->hwaddr, &macaddr, sizeof(macaddr));
     iface->hwaddr_len = sizeof(macaddr);
 
+#ifdef COMPONENT_43907
+    /*
+     * 43907 kits does not have TRNG module. Get random number from WLAN and feed
+     * it as a seed to PRNGfunction.
+     * Before invoking whd_cdc_get_iovar_buffer, WHD interface should be initialized.
+     * However, wcminit is called from cy_lwip_add_interface and WHD interface is an
+     * input to the cy_lwip_add_interface API. So it is safe to invoke
+     * whd_cdc_get_iovar_buffer here.
+     */
+    if (NULL != whd_cdc_get_iovar_buffer(whd_iface->whd_driver, &buffer, WLC_GET_RANDOM_BYTES, IOVAR_STR_RAND) )
+    {
+        whd_result_t whd_result;
+        whd_result = whd_cdc_send_iovar(whd_iface, CDC_GET, buffer, &response);
+        if (whd_result != WHD_SUCCESS)
+        {
+            whd_buffer_release(whd_iface->whd_driver, response, WHD_NETWORK_RX);
+            return ERR_IF;
+        }
+        wlan_rand = (uint32_t *)whd_buffer_get_current_piece_data_pointer(whd_iface->whd_driver, response);
+        if ( wlan_rand == NULL )
+        {
+            whd_buffer_release(whd_iface->whd_driver, response, WHD_NETWORK_RX);
+            return ERR_IF;
+        }
+    }
+    else
+    {
+        return ERR_IF;
+    }
+
+    /* Initialize the mutex to protect PRNG well512 state */
+    if (cy_prng_mutex_ptr == NULL)
+    {
+        cy_prng_mutex_ptr = &cy_prng_mutex;
+        cy_rtos_init_mutex(cy_prng_mutex_ptr);
+    }
+    /* Feed the random number obtained from WLAN to WELL512
+     * algorithm as initial seed value.
+     */
+    cy_prng_add_entropy((const void *)wlan_rand, 4);
+
+    /*
+     * Free the whd buffer used to get the random number from WLAN.
+     */
+    whd_buffer_release(whd_iface->whd_driver, response, WHD_NETWORK_RX);
+#endif
     /*
      * Setup the information associated with sending packets
      */
@@ -528,6 +606,20 @@ cy_rslt_t cy_lwip_remove_interface(cy_lwip_nw_interface_t *iface)
     }
 
     SET_IP_NETWORK_INITED(iface->role, false);
+#ifdef COMPONENT_43907
+    /* cy_prng_mutex_ptr is initialized when the first network intefrace is initialized.
+     * Deinitialize the mutex only after all the interfaces are deinitiazed.
+     */
+    if (!ip_networking_inited[CY_LWIP_STA_NW_INTERFACE] &&
+        !ip_networking_inited[CY_LWIP_AP_NW_INTERFACE])
+    {
+        if (cy_prng_mutex_ptr != NULL)
+        {
+            cy_rtos_deinit_mutex(cy_prng_mutex_ptr);
+            cy_prng_mutex_ptr = NULL;
+        }
+    }
+#endif
     return CY_RSLT_SUCCESS;
 }
 
@@ -540,7 +632,6 @@ cy_rslt_t cy_lwip_network_up(cy_lwip_nw_interface_t *iface)
 #if LWIP_IPV4
     ip4_addr_t ip_addr;
 #endif
-
     if(is_interface_valid(iface) != CY_RSLT_SUCCESS)
     {
         return CY_RSLT_LWIP_BAD_ARG;
@@ -941,3 +1032,154 @@ static cy_rslt_t is_interface_valid(cy_lwip_nw_interface_t *iface)
 
     return CY_RSLT_SUCCESS;
 }
+
+#ifdef COMPONENT_43907
+/* 43907 kits does not have TRNG module.
+ * Following are the functions to generate pseudo randon numbers
+ * These functions internal to AnyCloud library, currently used
+ * by secure sockets and WCM.
+ */
+static uint32_t crc32_calc( const uint8_t* buffer, uint16_t buffer_length, uint32_t prev_crc32 )
+{
+    uint32_t crc32 = ~prev_crc32;
+    int i;
+
+    for ( i = 0; i < buffer_length; i++ )
+    {
+        int j;
+
+        crc32 ^= buffer[ i ];
+
+        for ( j = 0; j < 8; j++ )
+        {
+            if ( crc32 & 0x1 )
+            {
+                crc32 = ( crc32 >> 1 ) ^ CY_PRNG_CRC32_POLYNOMIAL;
+            }
+            else
+            {
+                crc32 = ( crc32 >> 1 );
+            }
+        }
+    }
+
+    return ~crc32;
+}
+
+static uint32_t prng_well512_get_random( void )
+{
+    /*
+     * Implementation of WELL (Well equidistributed long-period linear) pseudorandom number generator.
+     * Use WELL512 source code placed by inventor to public domain.
+     */
+
+    uint32_t a, b, c, d;
+    uint32_t result;
+
+    cy_rtos_get_mutex( cy_prng_mutex_ptr , CY_RTOS_NEVER_TIMEOUT);
+
+    a = prng_well512_state[ prng_well512_index ];
+    c = prng_well512_state[ ( prng_well512_index + 13 ) & 15 ];
+    b = a ^ c ^ ( a << 16 ) ^ ( c << 15 );
+    c = prng_well512_state[ ( prng_well512_index + 9 ) & 15 ];
+    c ^= ( c >> 11 );
+    a = prng_well512_state[ prng_well512_index ] = b ^ c;
+    d = a ^ ( ( a << 5 ) & (uint32_t)0xDA442D24UL );
+    prng_well512_index = ( prng_well512_index + 15 ) & 15;
+    a = prng_well512_state[ prng_well512_index ];
+    prng_well512_state[ prng_well512_index ] = a ^ b ^ d ^ ( a << 2 ) ^ ( b << 18 ) ^ ( c << 28 );
+
+    result = prng_well512_state[ prng_well512_index ];
+
+    cy_rtos_set_mutex( cy_prng_mutex_ptr );
+
+    return result;
+}
+
+static void prng_well512_add_entropy( const void* buffer, uint16_t buffer_length )
+{
+    uint32_t crc32[ CY_PRNG_WELL512_STATE_SIZE ];
+    uint32_t curr_crc32 = 0;
+    unsigned i;
+
+    for ( i = 0; i < CY_PRNG_WELL512_STATE_SIZE; i++ )
+    {
+        curr_crc32 = crc32_calc( buffer, buffer_length, curr_crc32 );
+        crc32[ i ] = curr_crc32;
+    }
+
+    cy_rtos_get_mutex( cy_prng_mutex_ptr , CY_RTOS_NEVER_TIMEOUT);
+
+    for ( i = 0; i < CY_PRNG_WELL512_STATE_SIZE; i++ )
+    {
+        prng_well512_state[ i ] ^= crc32[ i ];
+    }
+
+    cy_rtos_set_mutex( cy_prng_mutex_ptr );
+}
+
+static bool prng_is_add_cyclecnt_entropy( uint32_t buffer_length )
+{
+    bool add_entropy = false;
+
+    cy_rtos_get_mutex( cy_prng_mutex_ptr , CY_RTOS_NEVER_TIMEOUT);
+
+    if ( prng_add_cyclecnt_entropy_bytes >= CY_PRNG_ADD_CYCLECNT_ENTROPY_EACH_N_BYTE )
+    {
+        prng_add_cyclecnt_entropy_bytes %= CY_PRNG_ADD_CYCLECNT_ENTROPY_EACH_N_BYTE;
+        add_entropy = true;
+    }
+
+    prng_add_cyclecnt_entropy_bytes += buffer_length;
+
+    cy_rtos_set_mutex( cy_prng_mutex_ptr );
+
+    return add_entropy;
+}
+
+static void prng_add_cyclecnt_entropy( uint32_t buffer_length )
+{
+    cy_rslt_t result;
+    if ( prng_is_add_cyclecnt_entropy( buffer_length ) )
+    {
+        cy_time_t cycle_count;
+        result = cy_rtos_get_time( &cycle_count );
+        if (result == CY_RSLT_SUCCESS)
+        {
+            prng_well512_add_entropy( &cycle_count, sizeof( cycle_count ) );
+        }
+    }
+    return;
+}
+
+cy_rslt_t cy_prng_get_random( void* buffer, uint32_t buffer_length )
+{
+    uint8_t* p = buffer;
+
+    prng_add_cyclecnt_entropy( buffer_length );
+
+    while ( buffer_length != 0 )
+    {
+        uint32_t rnd_val = prng_well512_get_random( );
+        int      i;
+
+        for ( i = 0; i < 4; i++ )
+        {
+            *p++ = (uint8_t)( rnd_val & 0xFF );
+            if ( --buffer_length == 0 )
+            {
+                break;
+            }
+            rnd_val = ( rnd_val >> 8 );
+        }
+    }
+
+    return CY_RSLT_SUCCESS;
+}
+
+cy_rslt_t cy_prng_add_entropy( const void* buffer, uint32_t buffer_length )
+{
+    prng_well512_add_entropy( buffer, buffer_length );
+    return CY_RSLT_SUCCESS;
+}
+#endif
