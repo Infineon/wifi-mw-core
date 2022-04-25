@@ -6,6 +6,9 @@ See the [README.md](./README.md) for a complete description of the Wi-Fi Middlew
 
 ## Changelog
 
+### v3.4.0
+- Integrated mbedTLS Crypto acceleration module to support hardware crypto.
+
 ### v3.3.0
 - Added support for CY8CEVAL-062S2-MUR-43439M2 kit
 

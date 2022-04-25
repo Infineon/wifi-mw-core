@@ -1,6 +1,6 @@
 # Wi-Fi middleware core library
 
-This repo comprises core components needed for Wi-Fi connectivity support. The library bundles FreeRTOS, lwIP TCP/IP stack, and mbed TLS for security, Wi-Fi host driver (WHD), secure sockets interface, configuration files, and associated code to bind these components together.
+This repo comprises core components needed for Wi-Fi connectivity support. The library bundles FreeRTOS, lwIP TCP/IP stack, mbed TLS for security, mbedTLS crypto acceleration module, Wi-Fi host driver (WHD), secure sockets interface, configuration files, and associated code to bind these components together.
 
 The ModusToolbox™ Wi-Fi code examples download this library automatically, so you don't need to.
 
@@ -94,7 +94,15 @@ You should do the following:
    ```
    **Note:** `PSOC6HAL` and either `43012` or `4343W` are necessary for the library depending on the platform used, but these are already included in the BSP's Makefile. Therefore, you do not need to include them here again.
 
-7. The wifi-mw-core library disables all debug log messages by default. Do the following to enable log messages:
+7. By default, the wifi-mw-core library enables mbedtls alternate implementation for the cryptographic operations supported by cy-mbedtls-acceleration module. Do the following to disable the mbedtls alternate implementation:
+
+   ```
+   DEFINES+=DISABLE_MBEDTLS_ACCELERATION
+   ```
+
+8. The cy-mbedtls-acceleration module included in wifi-mw-core library, enables mbed TLS ALT configurations for the crypto operations supported by the platform. Even if all the crypto operations under mbedTLS ALT config are not supported by the platform, the cy-mbedtls-acceleration module enables the mbedTLS ALT config. For example, even though all the eliptic curves are not supported, it enables MBEDTLS_ECP_ALT. In such cases, it is user's responsibility to disable the mbed TLS ALT config to use the mbed TLS software crypto. For example, if the user enables a cipher-suite that involes in eliptic curve crypto operation not supported by cy-mbedtls-acceleration, then he need to disable the MBEDTLS_ECP_ALT config. To know the supported hardware crypto operations, See [mbedTLS Crypto acceleration for CAT1A, CAT1B & CAT1C MCUs](https://github.com/Infineon/cy-mbedtls-acceleration) documentation.
+
+9. The wifi-mw-core library disables all debug log messages by default. Do the following to enable log messages:
 
    1. Add the `ENABLE_WIFI_MIDDLEWARE_LOGS` macro to the *DEFINES* in the code example's Makefile. The Makefile entry should look like as follows:
        ```
@@ -114,6 +122,8 @@ Secure sockets, lwIP, and mbed TLS libraries contain reference and test applicat
 - [ModusToolbox&trade; software environment, quick start guide, documentation, and videos](https://www.cypress.com/products/modustoolbox-software-environment)
 
 - [lwIP](https://savannah.nongnu.org/projects/lwip/)
+
+- [mbedTLS Crypto acceleration for CAT1A, CAT1B & CAT1C MCUs](https://github.com/Infineon/cy-mbedtls-acceleration)
 
 - [mbed TLS](https://tls.mbed.org/)
 

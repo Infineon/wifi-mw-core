@@ -797,4 +797,62 @@
  */
 #define MBEDTLS_VERBOSE 0
 
+/**
+ * \def Enable alternate crypto implementations to use the hardware
+ *      acceleration. Include The hardware acceleration module's (cy-mbedtls-acceleration)
+ *      header file to enable the supported ALT configurations.
+ */
+#ifndef DISABLE_MBEDTLS_ACCELERATION
+#include "mbedtls_alt_config.h"
+
+/**
+ * The cy-mbedtls-acceleration module supports only DP_SECP192R1,
+ * SECP224R1, SECP256R1, SECP384R1 and SECP521R1 curves. If any
+ * other curve is enabled, need to disable the MBEDTLS_ECP_ALT.
+ */
+#ifdef MBEDTLS_ECP_DP_SECP192K1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_SECP224K1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_SECP256K1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_BP256R1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_BP384R1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_BP512R1_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+#ifdef MBEDTLS_ECP_DP_CURVE25519_ENABLED
+#undef MBEDTLS_ECP_ALT
+#undef MBEDTLS_ECDH_GEN_PUBLIC_ALT
+#undef MBEDTLS_ECDSA_SIGN_ALT
+#undef MBEDTLS_ECDSA_VERIFY_ALT
+#endif
+
+#endif /* DISABLE_MBEDTLS_ACCELERATION */
+
 #endif /* MBEDTLS_USER_CONFIG_HEADER */
